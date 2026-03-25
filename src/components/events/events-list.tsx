@@ -83,6 +83,7 @@ export function EventsList({ onSelectEvent, onCreateEvent, refreshKey }: EventsL
           <Button size="sm" onClick={onCreateEvent} className="gap-1.5 h-8 sm:h-9 shrink-0 shadow-sm">
             <Plus className="size-4" />
             <span className="hidden xs:inline sm:inline">Buat Event</span>
+            <span className="xs:hidden sm:hidden">Buat</span>
           </Button>
         </div>
       </div>

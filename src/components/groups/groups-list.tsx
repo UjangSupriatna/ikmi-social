@@ -93,7 +93,8 @@ export function GroupsList({
           {showCreateButton && onCreateGroup && (
             <Button onClick={onCreateGroup} className="gap-2 shrink-0">
               <Plus className="size-4" />
-              Create Group
+              <span className="hidden sm:inline">Buat Group</span>
+              <span className="sm:hidden">Buat</span>
             </Button>
           )}
         </div>
@@ -116,7 +117,7 @@ export function GroupsList({
           {showCreateButton && onCreateGroup && (
             <Button onClick={onCreateGroup} className="gap-2">
               <Plus className="size-4" />
-              Create a Group
+              Buat Group
             </Button>
           )}
         </motion.div>

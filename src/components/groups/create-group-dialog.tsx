@@ -142,9 +142,9 @@ export function CreateGroupDialog({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Create New Group</DialogTitle>
+          <DialogTitle>Buat Group Baru</DialogTitle>
           <DialogDescription>
-            Create a group to connect with others who share your interests.
+            Buat group untuk terhubung dengan orang lain yang memiliki minat sama.
           </DialogDescription>
         </DialogHeader>
 
@@ -180,17 +180,17 @@ export function CreateGroupDialog({
               )}
             </div>
             <div className="flex-1">
-              <Label htmlFor="name">Group Name *</Label>
+              <Label htmlFor="name">Nama Group *</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter group name"
+                placeholder="Masukkan nama group"
                 maxLength={100}
                 className="mt-1"
               />
               <p className="text-xs text-muted-foreground mt-1">
-                {name.length}/100 characters
+                {name.length}/100 karakter
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ export function CreateGroupDialog({
                 />
                 <ImageIcon className="size-8 text-muted-foreground mb-2" />
                 <span className="text-sm text-muted-foreground">
-                  Click to upload cover image
+                  Klik untuk upload cover
                 </span>
               </label>
             )}
@@ -231,23 +231,23 @@ export function CreateGroupDialog({
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Deskripsi</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="What is this group about?"
+              placeholder="Group ini tentang apa?"
               maxLength={500}
               rows={3}
             />
             <p className="text-xs text-muted-foreground">
-              {description.length}/500 characters
+              {description.length}/500 karakter
             </p>
           </div>
 
           {/* Privacy */}
           <div className="space-y-2">
-            <Label>Privacy</Label>
+            <Label>Privasi</Label>
             <RadioGroup
               value={privacy}
               onValueChange={(value) => setPrivacy(value as 'public' | 'private')}
@@ -261,9 +261,9 @@ export function CreateGroupDialog({
                 >
                   <Globe className="size-4 text-primary" />
                   <div>
-                    <p className="font-medium text-sm">Public</p>
+                    <p className="font-medium text-sm">Publik</p>
                     <p className="text-xs text-muted-foreground">
-                      Anyone can join
+                      Semua orang bisa join
                     </p>
                   </div>
                 </label>
@@ -278,7 +278,7 @@ export function CreateGroupDialog({
                   <div>
                     <p className="font-medium text-sm">Private</p>
                     <p className="text-xs text-muted-foreground">
-                      Invite only
+                      Hanya undangan
                     </p>
                   </div>
                 </label>
@@ -293,7 +293,7 @@ export function CreateGroupDialog({
             onClick={handleClose}
             disabled={isSubmitting}
           >
-            Cancel
+            Batal
           </Button>
           <Button
             onClick={handleSubmit}
@@ -303,10 +303,10 @@ export function CreateGroupDialog({
             {isSubmitting ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
-                Creating...
+                Membuat...
               </>
             ) : (
-              'Create Group'
+              'Buat Group'
             )}
           </Button>
         </DialogFooter>
