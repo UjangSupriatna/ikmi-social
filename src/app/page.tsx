@@ -1057,6 +1057,21 @@ export default function IKMISocial() {
           if (data) setSelectedEvent(data)
         })
       }}
+      onViewAllPeople={() => {
+        setViewingUserId(null)
+        setCurrentView('friends')
+        setFriendsTab('suggestions')
+      }}
+      onViewAllGroups={() => {
+        setViewingUserId(null)
+        setSelectedGroup(null)
+        setCurrentView('groups')
+      }}
+      onViewAllEvents={() => {
+        setViewingUserId(null)
+        setSelectedEvent(null)
+        setCurrentView('events')
+      }}
     >
       <AnimatePresence mode="wait">
         {/* FEED VIEW */}

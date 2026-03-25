@@ -16,14 +16,14 @@ const io = new Server(httpServer, {
 })
 
 // Store user socket connections
-const userSockets = new Map<string, Set<string>>() // userId -> Set of socketIds
-const socketUser = new Map<string, string>() // socketId -> userId
+const userSockets = new Map() // userId -> Set of socketIds
+const socketUser = new Map() // socketId -> userId
 
 io.on('connection', (socket) => {
   console.log(`[Chat] Client connected: ${socket.id}`)
 
   // User joins with their userId
-  socket.on('join', async (userId: string) => {
+  socket.on('join', async (userId) => {
     try {
       console.log(`[Chat] User ${userId} joined with socket ${socket.id}`)
       
@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
       if (!userSockets.has(userId)) {
         userSockets.set(userId, new Set())
       }
-      userSockets.get(userId)!.add(socket.id)
+      userSockets.get(userId).add(socket.id)
       
       // Get user's conversations and join those rooms
       const participations = await prisma.conversationParticipant.findMany({
@@ -52,24 +52,19 @@ io.on('connection', (socket) => {
   })
 
   // Join a specific conversation room
-  socket.on('join-conversation', (conversationId: string) => {
+  socket.on('join-conversation', (conversationId) => {
     socket.join(`conversation:${conversationId}`)
     console.log(`[Chat] Socket ${socket.id} joined conversation ${conversationId}`)
   })
 
   // Leave a conversation room
-  socket.on('leave-conversation', (conversationId: string) => {
+  socket.on('leave-conversation', (conversationId) => {
     socket.leave(`conversation:${conversationId}`)
     console.log(`[Chat] Socket ${socket.id} left conversation ${conversationId}`)
   })
 
   // Handle new message
-  socket.on('send-message', async (data: {
-    conversationId: string
-    senderId: string
-    content: string
-    images?: string[]
-  }) => {
+  socket.on('send-message', async (data) => {
     try {
       const { conversationId, senderId, content, images } = data
       
@@ -152,7 +147,7 @@ io.on('connection', (socket) => {
   })
 
   // Handle typing indicator
-  socket.on('typing', (data: { conversationId: string, userId: string, userName: string }) => {
+  socket.on('typing', (data) => {
     socket.to(`conversation:${data.conversationId}`).emit('user-typing', {
       conversationId: data.conversationId,
       userId: data.userId,
@@ -160,7 +155,7 @@ io.on('connection', (socket) => {
     })
   })
 
-  socket.on('stop-typing', (data: { conversationId: string, userId: string }) => {
+  socket.on('stop-typing', (data) => {
     socket.to(`conversation:${data.conversationId}`).emit('user-stop-typing', {
       conversationId: data.conversationId,
       userId: data.userId
@@ -168,7 +163,7 @@ io.on('connection', (socket) => {
   })
 
   // Handle read receipts
-  socket.on('mark-read', async (data: { conversationId: string, userId: string }) => {
+  socket.on('mark-read', async (data) => {
     try {
       const { conversationId, userId } = data
       

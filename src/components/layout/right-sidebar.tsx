@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion } from "framer-motion"
-import { UserPlus, Users, TrendingUp, ExternalLink, Loader2, Calendar, Clock, MapPin } from "lucide-react"
+import { UserPlus, Users, TrendingUp, ExternalLink, Loader2, Calendar, Clock, MapPin, ChevronRight } from "lucide-react"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 
@@ -51,6 +51,9 @@ interface RightSidebarProps {
   onGroupClick?: (groupId: string) => void
   onJoinGroup?: (groupId: string) => void
   onEventClick?: (eventId: string) => void
+  onViewAllPeople?: () => void
+  onViewAllGroups?: () => void
+  onViewAllEvents?: () => void
 }
 
 const categoryColors: Record<string, string> = {
@@ -62,7 +65,15 @@ const categoryColors: Record<string, string> = {
   other: 'bg-gray-500/15 text-gray-600',
 }
 
-export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClick }: RightSidebarProps) {
+export function RightSidebar({ 
+  className, 
+  onGroupClick, 
+  onJoinGroup, 
+  onEventClick,
+  onViewAllPeople,
+  onViewAllGroups,
+  onViewAllEvents
+}: RightSidebarProps) {
   const [suggestedUsers, setSuggestedUsers] = React.useState<SuggestedUser[]>([])
   const [suggestedGroups, setSuggestedGroups] = React.useState<SuggestedGroup[]>([])
   const [upcomingEvents, setUpcomingEvents] = React.useState<UpcomingEvent[]>([])
@@ -162,10 +173,23 @@ export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClic
           >
             <Card className="border-0 shadow-none bg-transparent">
               <CardHeader className="p-0 pb-3">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                  <UserPlus className="size-4 text-primary" />
-                  People You May Know
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <UserPlus className="size-4 text-primary" />
+                    People You May Know
+                  </CardTitle>
+                  {suggestedUsers.length > 0 && onViewAllPeople && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 px-2 text-xs text-primary hover:text-primary/80"
+                      onClick={onViewAllPeople}
+                    >
+                      View All
+                      <ChevronRight className="size-3 ml-0.5" />
+                    </Button>
+                  )}
+                </div>
               </CardHeader>
               <CardContent className="p-0">
                 {isLoadingUsers ? (
@@ -177,8 +201,8 @@ export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClic
                     No suggestions available
                   </p>
                 ) : (
-                  <div className="space-y-3">
-                    {suggestedUsers.map((user, index) => (
+                  <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+                    {suggestedUsers.slice(0, 5).map((user, index) => (
                       <motion.div
                         key={user.id}
                         initial={{ x: 20, opacity: 0 }}
@@ -235,10 +259,23 @@ export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClic
           >
             <Card className="border-0 shadow-none bg-transparent">
               <CardHeader className="p-0 pb-3">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                  <TrendingUp className="size-4 text-primary" />
-                  Popular Groups
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <TrendingUp className="size-4 text-primary" />
+                    Popular Groups
+                  </CardTitle>
+                  {suggestedGroups.length > 0 && onViewAllGroups && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 px-2 text-xs text-primary hover:text-primary/80"
+                      onClick={onViewAllGroups}
+                    >
+                      View All
+                      <ChevronRight className="size-3 ml-0.5" />
+                    </Button>
+                  )}
+                </div>
               </CardHeader>
               <CardContent className="p-0">
                 {isLoadingGroups ? (
@@ -250,8 +287,8 @@ export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClic
                     No groups available
                   </p>
                 ) : (
-                  <div className="space-y-3">
-                    {suggestedGroups.map((group, index) => (
+                  <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+                    {suggestedGroups.slice(0, 5).map((group, index) => (
                       <motion.div
                         key={group.id}
                         initial={{ x: 20, opacity: 0 }}
@@ -309,10 +346,23 @@ export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClic
           >
             <Card className="border-0 shadow-none bg-transparent">
               <CardHeader className="p-0 pb-3">
-                <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                  <Calendar className="size-4 text-primary" />
-                  Upcoming Events
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
+                    <Calendar className="size-4 text-primary" />
+                    Upcoming Events
+                  </CardTitle>
+                  {upcomingEvents.length > 0 && onViewAllEvents && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-6 px-2 text-xs text-primary hover:text-primary/80"
+                      onClick={onViewAllEvents}
+                    >
+                      View All
+                      <ChevronRight className="size-3 ml-0.5" />
+                    </Button>
+                  )}
+                </div>
               </CardHeader>
               <CardContent className="p-0">
                 {isLoadingEvents ? (
@@ -324,8 +374,8 @@ export function RightSidebar({ className, onGroupClick, onJoinGroup, onEventClic
                     No upcoming events
                   </p>
                 ) : (
-                  <div className="space-y-3">
-                    {upcomingEvents.map((event, index) => {
+                  <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+                    {upcomingEvents.slice(0, 5).map((event, index) => {
                       const eventDate = new Date(event.startDate)
                       return (
                         <motion.div

@@ -25,6 +25,9 @@ interface MainLayoutProps {
   onGroupClick?: (groupId: string) => void
   onJoinGroup?: (groupId: string) => void
   onEventClick?: (eventId: string) => void
+  onViewAllPeople?: () => void
+  onViewAllGroups?: () => void
+  onViewAllEvents?: () => void
 }
 
 export function MainLayout({ 
@@ -36,7 +39,10 @@ export function MainLayout({
   unreadMessagesCount = 0,
   onGroupClick,
   onJoinGroup,
-  onEventClick
+  onEventClick,
+  onViewAllPeople,
+  onViewAllGroups,
+  onViewAllEvents
 }: MainLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -81,6 +87,9 @@ export function MainLayout({
             onGroupClick={onGroupClick}
             onJoinGroup={onJoinGroup}
             onEventClick={onEventClick}
+            onViewAllPeople={onViewAllPeople}
+            onViewAllGroups={onViewAllGroups}
+            onViewAllEvents={onViewAllEvents}
           />
         </aside>
       </div>
