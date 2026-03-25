@@ -99,9 +99,9 @@ export function FriendsList({ className }: FriendsListProps) {
   const renderEmpty = () => (
     <Card className="border-dashed">
       <CardContent className="p-8 text-center">
-        <Users className="size-12 text-gray-300 mx-auto mb-4" />
-        <h3 className="font-semibold text-gray-600 mb-2">No friends yet</h3>
-        <p className="text-sm text-gray-500">
+        <Users className="size-12 text-muted-foreground/50 mx-auto mb-4" />
+        <h3 className="font-semibold text-muted-foreground mb-2">No friends yet</h3>
+        <p className="text-sm text-muted-foreground/70">
           Start connecting with others to build your network
         </p>
       </CardContent>
@@ -111,9 +111,9 @@ export function FriendsList({ className }: FriendsListProps) {
   const renderNoResults = () => (
     <Card className="border-dashed">
       <CardContent className="p-8 text-center">
-        <Search className="size-12 text-gray-300 mx-auto mb-4" />
-        <h3 className="font-semibold text-gray-600 mb-2">No results found</h3>
-        <p className="text-sm text-gray-500">
+        <Search className="size-12 text-muted-foreground/50 mx-auto mb-4" />
+        <h3 className="font-semibold text-muted-foreground mb-2">No results found</h3>
+        <p className="text-sm text-muted-foreground/70">
           No friends match "{searchQuery}"
         </p>
       </CardContent>
@@ -125,11 +125,11 @@ export function FriendsList({ className }: FriendsListProps) {
       {/* Header with Search */}
       <div className="flex flex-col gap-3 mb-4">
         <div className="flex items-center gap-2">
-          <Users className="size-4 sm:size-5 text-teal-600" />
-          <h2 className="text-base sm:text-xl font-semibold text-gray-900">
+          <Users className="size-4 sm:size-5 text-primary" />
+          <h2 className="text-base sm:text-xl font-semibold text-foreground">
             Friends
             {!isLoading && (
-              <span className="text-xs sm:text-sm font-normal text-gray-500 ml-1 sm:ml-2">
+              <span className="text-xs sm:text-sm font-normal text-muted-foreground ml-1 sm:ml-2">
                 ({friends.length})
               </span>
             )}
@@ -137,7 +137,7 @@ export function FriendsList({ className }: FriendsListProps) {
         </div>
         
         <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
             placeholder="Search friends..."
             value={searchQuery}

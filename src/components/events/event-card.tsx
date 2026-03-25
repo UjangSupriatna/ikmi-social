@@ -70,12 +70,12 @@ const categoryLabels: Record<string, string> = {
 }
 
 const categoryColors: Record<string, string> = {
-  seminar: 'bg-blue-500/15 text-blue-600 border-blue-500/20',
-  workshop: 'bg-green-500/15 text-green-600 border-green-500/20',
-  competition: 'bg-orange-500/15 text-orange-600 border-orange-500/20',
-  gathering: 'bg-purple-500/15 text-purple-600 border-purple-500/20',
-  webinar: 'bg-cyan-500/15 text-cyan-600 border-cyan-500/20',
-  other: 'bg-gray-500/15 text-gray-600 border-gray-500/20',
+  seminar: 'bg-blue-500/15 text-blue-500 dark:text-blue-400 border-blue-500/20',
+  workshop: 'bg-green-500/15 text-green-500 dark:text-green-400 border-green-500/20',
+  competition: 'bg-orange-500/15 text-orange-500 dark:text-orange-400 border-orange-500/20',
+  gathering: 'bg-purple-500/15 text-purple-500 dark:text-purple-400 border-purple-500/20',
+  webinar: 'bg-cyan-500/15 text-cyan-500 dark:text-cyan-400 border-cyan-500/20',
+  other: 'bg-gray-500/15 text-gray-500 dark:text-gray-400 border-gray-500/20',
 }
 
 const locationTypeIcons: Record<string, React.ReactNode> = {

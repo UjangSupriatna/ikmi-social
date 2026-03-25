@@ -106,9 +106,9 @@ export function FriendRequests({ className }: FriendRequestsProps) {
   const renderEmptyIncoming = () => (
     <Card className="border-dashed">
       <CardContent className="p-6 text-center">
-        <Inbox className="size-10 text-gray-300 mx-auto mb-3" />
-        <h3 className="font-medium text-gray-600 mb-1">No pending requests</h3>
-        <p className="text-sm text-gray-500">
+        <Inbox className="size-10 text-muted-foreground/50 mx-auto mb-3" />
+        <h3 className="font-medium text-muted-foreground mb-1">No pending requests</h3>
+        <p className="text-sm text-muted-foreground/70">
           When someone sends you a friend request, it will appear here
         </p>
       </CardContent>
@@ -118,9 +118,9 @@ export function FriendRequests({ className }: FriendRequestsProps) {
   const renderEmptyOutgoing = () => (
     <Card className="border-dashed">
       <CardContent className="p-6 text-center">
-        <Send className="size-10 text-gray-300 mx-auto mb-3" />
-        <h3 className="font-medium text-gray-600 mb-1">No sent requests</h3>
-        <p className="text-sm text-gray-500">
+        <Send className="size-10 text-muted-foreground/50 mx-auto mb-3" />
+        <h3 className="font-medium text-muted-foreground mb-1">No sent requests</h3>
+        <p className="text-sm text-muted-foreground/70">
           Your pending friend requests will appear here
         </p>
       </CardContent>
@@ -132,8 +132,8 @@ export function FriendRequests({ className }: FriendRequestsProps) {
       {/* Incoming Requests Section */}
       <div className="mb-4 sm:mb-6">
         <div className="flex items-center gap-2 mb-3 sm:mb-4">
-          <UserPlus className="size-4 sm:size-5 text-teal-600" />
-          <h2 className="text-base sm:text-xl font-semibold text-gray-900">
+          <UserPlus className="size-4 sm:size-5 text-primary" />
+          <h2 className="text-base sm:text-xl font-semibold text-foreground">
             Friend Requests
           </h2>
           {!isLoading && incomingRequests.length > 0 && (
@@ -184,12 +184,12 @@ export function FriendRequests({ className }: FriendRequestsProps) {
       <div>
         <Button
           variant="ghost"
-          className="w-full justify-between mb-2 sm:mb-4 hover:bg-gray-100 h-9 sm:h-10"
+          className="w-full justify-between mb-2 sm:mb-4 hover:bg-accent h-9 sm:h-10"
           onClick={() => setShowOutgoing(!showOutgoing)}
         >
           <div className="flex items-center gap-2">
-            <Send className="size-3.5 sm:size-4 text-gray-500" />
-            <span className="font-medium text-sm sm:text-base">Sent Requests</span>
+            <Send className="size-3.5 sm:size-4 text-muted-foreground" />
+            <span className="font-medium text-sm sm:text-base text-foreground">Sent Requests</span>
             {!isLoading && outgoingRequests.length > 0 && (
               <Badge variant="secondary" className="ml-1 sm:ml-2 text-xs">
                 {outgoingRequests.length}
@@ -197,9 +197,9 @@ export function FriendRequests({ className }: FriendRequestsProps) {
             )}
           </div>
           {showOutgoing ? (
-            <ChevronUp className="size-3.5 sm:size-4 text-gray-500" />
+            <ChevronUp className="size-3.5 sm:size-4 text-muted-foreground" />
           ) : (
-            <ChevronDown className="size-3.5 sm:size-4 text-gray-500" />
+            <ChevronDown className="size-3.5 sm:size-4 text-muted-foreground" />
           )}
         </Button>
 

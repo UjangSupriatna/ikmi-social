@@ -118,18 +118,18 @@ export function FriendCard({
                 onClick={handleViewProfile}
                 className="focus:outline-none text-left w-full"
               >
-                <h3 className="font-semibold text-gray-900 hover:text-teal-600 transition-colors truncate text-sm sm:text-base">
+                <h3 className="font-semibold text-foreground hover:text-primary transition-colors truncate text-sm sm:text-base">
                   {user.name}
                 </h3>
               </button>
-              <p className="text-xs sm:text-sm text-gray-500 truncate">@{user.username}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground truncate">@{user.username}</p>
               {user.headline && (
-                <p className="text-xs text-gray-600 mt-0.5 truncate hidden sm:block">{user.headline}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 truncate hidden sm:block">{user.headline}</p>
               )}
               
               {/* Mutual Friends */}
               {showMutualFriends && user.mutualFriendsCount !== undefined && user.mutualFriendsCount > 0 && (
-                <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
                   <Users className="size-3" />
                   <span>{user.mutualFriendsCount} mutual</span>
                 </div>

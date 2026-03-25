@@ -50,12 +50,12 @@ const categoryLabels: Record<string, string> = {
 }
 
 const categoryColors: Record<string, string> = {
-  seminar: 'bg-blue-500/15 text-blue-600 border-blue-500/20',
-  workshop: 'bg-green-500/15 text-green-600 border-green-500/20',
-  competition: 'bg-orange-500/15 text-orange-600 border-orange-500/20',
-  gathering: 'bg-purple-500/15 text-purple-600 border-purple-500/20',
-  webinar: 'bg-cyan-500/15 text-cyan-600 border-cyan-500/20',
-  other: 'bg-gray-500/15 text-gray-600 border-gray-500/20',
+  seminar: 'bg-blue-500/15 text-blue-500 dark:text-blue-400 border-blue-500/20',
+  workshop: 'bg-green-500/15 text-green-500 dark:text-green-400 border-green-500/20',
+  competition: 'bg-orange-500/15 text-orange-500 dark:text-orange-400 border-orange-500/20',
+  gathering: 'bg-purple-500/15 text-purple-500 dark:text-purple-400 border-purple-500/20',
+  webinar: 'bg-cyan-500/15 text-cyan-500 dark:text-cyan-400 border-cyan-500/20',
+  other: 'bg-gray-500/15 text-gray-500 dark:text-gray-400 border-gray-500/20',
 }
 
 // Helper function to convert Google Drive share links to direct image URLs
@@ -265,7 +265,7 @@ export function EventDetail({
           {/* Location Type Badge */}
           {event.locationType !== 'offline' && (
             <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4">
-              <Badge variant="secondary" className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-white/90 text-gray-800 gap-1">
+              <Badge variant="secondary" className="text-[10px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 bg-background/90 text-foreground gap-1">
                 {event.locationType === 'online' ? <Video className="size-2.5 sm:size-3" /> : <Globe className="size-2.5 sm:size-3" />}
                 {event.locationType === 'online' ? 'Online' : 'Hybrid'}
               </Badge>

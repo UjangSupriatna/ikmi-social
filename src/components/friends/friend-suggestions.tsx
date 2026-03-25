@@ -102,9 +102,9 @@ export function FriendSuggestions({ className, limit = 5 }: FriendSuggestionsPro
   const renderEmpty = () => (
     <Card className="border-dashed">
       <CardContent className="p-6 text-center">
-        <Users className="size-10 text-gray-300 mx-auto mb-3" />
-        <h3 className="font-medium text-gray-600 mb-1">No suggestions</h3>
-        <p className="text-sm text-gray-500">
+        <Users className="size-10 text-muted-foreground/50 mx-auto mb-3" />
+        <h3 className="font-medium text-muted-foreground mb-1">No suggestions</h3>
+        <p className="text-sm text-muted-foreground/70">
           We'll suggest people you may know here
         </p>
       </CardContent>
@@ -116,8 +116,8 @@ export function FriendSuggestions({ className, limit = 5 }: FriendSuggestionsPro
       {/* Header */}
       <div className="flex items-center justify-between mb-3 sm:mb-4">
         <div className="flex items-center gap-2">
-          <Users className="size-4 sm:size-5 text-teal-600" />
-          <h2 className="text-base sm:text-xl font-semibold text-gray-900">
+          <Users className="size-4 sm:size-5 text-primary" />
+          <h2 className="text-base sm:text-xl font-semibold text-foreground">
             People You May Know
           </h2>
         </div>

@@ -125,21 +125,21 @@ export function FriendRequestItem({
             {/* User Info */}
             <div className="flex-1 min-w-0">
               <Link href={`/profile/${user.username}`}>
-                <h3 className="font-semibold text-gray-900 hover:text-teal-600 transition-colors truncate text-sm sm:text-base">
+                <h3 className="font-semibold text-foreground hover:text-primary transition-colors truncate text-sm sm:text-base">
                   {user.name}
                 </h3>
               </Link>
-              <p className="text-xs sm:text-sm text-gray-500 truncate">@{user.username}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground truncate">@{user.username}</p>
               
               {/* Mutual Friends & Time */}
               <div className="flex items-center gap-2 sm:gap-3 mt-0.5 sm:mt-1">
                 {mutualFriendsCount !== undefined && mutualFriendsCount > 0 && (
-                  <span className="text-xs text-gray-500 flex items-center gap-0.5">
+                  <span className="text-xs text-muted-foreground flex items-center gap-0.5">
                     <Users className="size-2.5 sm:size-3" />
                     {mutualFriendsCount} mutual
                   </span>
                 )}
-                <span className="text-xs text-gray-400 flex items-center gap-0.5">
+                <span className="text-xs text-muted-foreground/70 flex items-center gap-0.5">
                   <Clock className="size-2.5 sm:size-3" />
                   {getTimeAgo(createdAt)}
                 </span>
@@ -183,7 +183,7 @@ export function FriendRequestItem({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-gray-300 text-gray-600 hover:bg-gray-50 h-8 sm:h-9"
+                  className="border-border text-muted-foreground hover:bg-accent h-8 sm:h-9"
                   onClick={() => handleAction('cancel', onCancel)}
                   disabled={isLoading !== null}
                 >
