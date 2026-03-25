@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   Home, Users, User, Settings, LogOut, Loader2, 
   GraduationCap, Mail, Lock, UserPlus, Eye, EyeOff,
-  Image as ImageIcon, ArrowLeft, MessageCircle, ShoppingCart
+  Image as ImageIcon, ArrowLeft, MessageCircle, ShoppingCart, Plus
 } from 'lucide-react'
 
 import { MainLayout } from '@/components/layout'
