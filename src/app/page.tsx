@@ -238,6 +238,7 @@ export default function IKMISocial() {
   const [messages, setMessages] = React.useState<MessageData[]>([])
   const [isLoadingMessages, setIsLoadingMessages] = React.useState(false)
   const [isSendingMessage, setIsSendingMessage] = React.useState(false)
+  const [isRefreshingMessages, setIsRefreshingMessages] = React.useState(false)
   const [newChatOpen, setNewChatOpen] = React.useState(false)
   const [friends, setFriends] = React.useState<FriendData[]>([])
   const [unreadMessagesCount, setUnreadMessagesCount] = React.useState(0)
@@ -670,17 +671,13 @@ export default function IKMISocial() {
     }
   }, [selectedConversation, isSocketConnected, joinConversation, markAsRead, user?.id])
 
-  // Polling fallback for messages when socket is not connected
-  React.useEffect(() => {
-    if (!selectedConversation || isSocketConnected) return
-
-    // Poll for new messages every 3 seconds when socket is not connected
-    const pollInterval = setInterval(() => {
-      fetchMessages(selectedConversation.id)
-    }, 3000)
-
-    return () => clearInterval(pollInterval)
-  }, [selectedConversation, isSocketConnected, fetchMessages])
+  // Refresh messages manually
+  const handleRefreshMessages = async () => {
+    if (!selectedConversation) return
+    setIsRefreshingMessages(true)
+    await fetchMessages(selectedConversation.id)
+    setIsRefreshingMessages(false)
+  }
 
   // ========== MESSAGE HANDLERS ==========
   const handleSelectConversation = async (conversation: ConversationData) => {
@@ -1464,6 +1461,8 @@ export default function IKMISocial() {
                     isConnected={isSocketConnected}
                     onBack={() => setSelectedConversation(null)}
                     onSendMessage={handleSendMessage}
+                    onRefresh={handleRefreshMessages}
+                    isRefreshing={isRefreshingMessages}
                   />
                 ) : (
                   <div className="text-center p-8">

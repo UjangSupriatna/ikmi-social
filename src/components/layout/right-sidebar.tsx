@@ -149,257 +149,136 @@ export function RightSidebar({
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
   }
 
-  // Loading Component
-  const LoadingState = () => (
-    <div className="flex justify-center py-4">
-      <Loader2 className="size-5 animate-spin text-muted-foreground" />
-    </div>
-  )
-
-  // Empty State Component
-  const EmptyState = ({ message }: { message: string }) => (
-    <p className="text-sm text-muted-foreground text-center py-4">{message}</p>
-  )
-
-  // Section Header Component
-  const SectionHeader = ({ 
-    icon: Icon, 
-    title, 
-    onViewAll, 
-    hasItems 
-  }: { 
-    icon: React.ElementType
-    title: string
-    onViewAll?: () => void
-    hasItems: boolean
-  }) => (
-    <div className="flex items-center justify-between h-5">
-      <div className="flex items-center gap-2">
-        <Icon className="size-4 text-primary shrink-0" />
-        <span className="text-sm font-semibold text-foreground leading-5">{title}</span>
-      </div>
-      {hasItems && onViewAll && (
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="h-5 px-2 text-xs text-primary"
-          onClick={onViewAll}
-        >
-          View All<ChevronRight className="size-3 ml-0.5" />
-        </Button>
-      )}
-    </div>
-  )
-
-  // Item Row Component - ensures consistent layout
-  const ItemRow = ({ 
-    children,
-    onClick 
-  }: { 
-    children: React.ReactNode
-    onClick?: () => void 
-  }) => (
-    <div 
-      className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group h-[52px]"
-      onClick={onClick}
-    >
-      {children}
-    </div>
-  )
-
-  // Icon Container - fixed size
-  const IconContainer = ({ children }: { children: React.ReactNode }) => (
-    <div className="w-10 h-10 shrink-0 flex items-center justify-center">
-      {children}
-    </div>
-  )
-
-  // Text Content - fixed height with two lines
-  const TextContent = ({ title, subtitle }: { title: string; subtitle: string }) => (
-    <div className="flex-1 min-w-0 h-10 flex flex-col justify-center">
-      <p className="text-sm font-medium text-foreground truncate leading-5 group-hover:text-primary transition-colors">
-        {title}
-      </p>
-      <p className="text-xs text-muted-foreground truncate leading-5">
-        {subtitle}
-      </p>
-    </div>
-  )
-
-  // Action Container - fixed size
-  const ActionContainer = ({ children }: { children: React.ReactNode }) => (
-    <div className="w-8 h-8 shrink-0">
-      {children}
-    </div>
-  )
-
   return (
     <div className={cn("flex h-full flex-col", className)}>
       <ScrollArea className="flex-1">
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-5">
           
           {/* People You May Know */}
-          <section>
-            <SectionHeader
-              icon={UserPlus}
-              title="People You May Know"
-              onViewAll={onViewAllPeople}
-              hasItems={suggestedUsers.length > 0}
-            />
-            
-            <div className="mt-3">
-              {isLoadingUsers ? (
-                <LoadingState />
-              ) : suggestedUsers.length === 0 ? (
-                <EmptyState message="No suggestions available" />
-              ) : (
-                <div className="space-y-0.5">
-                  {suggestedUsers.slice(0, 5).map((user) => (
-                    <ItemRow key={user.id}>
-                      <IconContainer>
-                        <Avatar className="size-10">
-                          <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                          <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
-                            {getInitials(user.name)}
-                          </AvatarFallback>
-                        </Avatar>
-                      </IconContainer>
-                      
-                      <TextContent 
-                        title={user.name}
-                        subtitle={user.mutualFriends > 0 
-                          ? `${user.mutualFriends} mutual friends`
-                          : `@${user.username}`
-                        }
-                      />
-                      
-                      <ActionContainer>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="size-8"
-                          disabled={sendingRequestId === user.id}
-                          onClick={() => handleSendRequest(user.id)}
-                        >
-                          {sendingRequestId === user.id ? (
-                            <Loader2 className="size-3.5 animate-spin" />
-                          ) : (
-                            <UserPlus className="size-3.5" />
-                          )}
-                        </Button>
-                      </ActionContainer>
-                    </ItemRow>
-                  ))}
-                </div>
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <UserPlus className="size-4 text-primary" />
+                <span className="text-sm font-semibold">People You May Know</span>
+              </div>
+              {suggestedUsers.length > 0 && onViewAllPeople && (
+                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-primary" onClick={onViewAllPeople}>
+                  View All<ChevronRight className="size-3 ml-0.5" />
+                </Button>
               )}
             </div>
-          </section>
+            
+            {isLoadingUsers ? (
+              <div className="flex justify-center py-4"><Loader2 className="size-5 animate-spin text-muted-foreground" /></div>
+            ) : suggestedUsers.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No suggestions available</p>
+            ) : (
+              <div className="space-y-2">
+                {suggestedUsers.slice(0, 5).map((user) => (
+                  <div key={user.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group">
+                    <Avatar className="size-10 shrink-0">
+                      <AvatarImage src={user.avatar || undefined} alt={user.name} />
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">{getInitials(user.name)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate group-hover:text-primary">{user.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.mutualFriends > 0 ? `${user.mutualFriends} mutual friends` : `@${user.username}`}</p>
+                    </div>
+                    <Button variant="outline" size="icon" className="size-8 shrink-0" disabled={sendingRequestId === user.id} onClick={() => handleSendRequest(user.id)}>
+                      {sendingRequestId === user.id ? <Loader2 className="size-3.5 animate-spin" /> : <UserPlus className="size-3.5" />}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <Separator />
 
           {/* Popular Groups */}
-          <section>
-            <SectionHeader
-              icon={TrendingUp}
-              title="Popular Groups"
-              onViewAll={onViewAllGroups}
-              hasItems={suggestedGroups.length > 0}
-            />
-            
-            <div className="mt-3">
-              {isLoadingGroups ? (
-                <LoadingState />
-              ) : suggestedGroups.length === 0 ? (
-                <EmptyState message="No groups available" />
-              ) : (
-                <div className="space-y-0.5">
-                  {suggestedGroups.slice(0, 5).map((group) => (
-                    <ItemRow key={group.id} onClick={() => onGroupClick?.(group.id)}>
-                      <IconContainer>
-                        <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden">
-                          {group.avatar ? (
-                            <img src={group.avatar} alt={group.name} className="size-full object-cover" />
-                          ) : (
-                            <Users className="size-5 text-primary" />
-                          )}
-                        </div>
-                      </IconContainer>
-                      
-                      <TextContent 
-                        title={group.name}
-                        subtitle={`${group.memberCount.toLocaleString()} members`}
-                      />
-                      
-                      <ActionContainer>
-                        {!group.isMember && onJoinGroup && (
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="size-8"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              onJoinGroup(group.id)
-                            }}
-                          >
-                            <UserPlus className="size-3.5" />
-                          </Button>
-                        )}
-                      </ActionContainer>
-                    </ItemRow>
-                  ))}
-                </div>
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="size-4 text-primary" />
+                <span className="text-sm font-semibold">Popular Groups</span>
+              </div>
+              {suggestedGroups.length > 0 && onViewAllGroups && (
+                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-primary" onClick={onViewAllGroups}>
+                  View All<ChevronRight className="size-3 ml-0.5" />
+                </Button>
               )}
             </div>
-          </section>
+            
+            {isLoadingGroups ? (
+              <div className="flex justify-center py-4"><Loader2 className="size-5 animate-spin text-muted-foreground" /></div>
+            ) : suggestedGroups.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No groups available</p>
+            ) : (
+              <div className="space-y-2">
+                {suggestedGroups.slice(0, 5).map((group) => (
+                  <div key={group.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group" onClick={() => onGroupClick?.(group.id)}>
+                    <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                      {group.avatar ? <img src={group.avatar} alt={group.name} className="size-full object-cover" /> : <Users className="size-5 text-primary" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate group-hover:text-primary">{group.name}</p>
+                      <p className="text-xs text-muted-foreground">{group.memberCount.toLocaleString()} members</p>
+                    </div>
+                    {!group.isMember && onJoinGroup && (
+                      <Button variant="outline" size="icon" className="size-8 shrink-0" onClick={(e) => { e.stopPropagation(); onJoinGroup(group.id) }}>
+                        <UserPlus className="size-3.5" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <Separator />
 
           {/* Upcoming Events */}
-          <section>
-            <SectionHeader
-              icon={Calendar}
-              title="Upcoming Events"
-              onViewAll={onViewAllEvents}
-              hasItems={upcomingEvents.length > 0}
-            />
-            
-            <div className="mt-3">
-              {isLoadingEvents ? (
-                <LoadingState />
-              ) : upcomingEvents.length === 0 ? (
-                <EmptyState message="No upcoming events" />
-              ) : (
-                <div className="space-y-0.5">
-                  {upcomingEvents.slice(0, 5).map((event) => {
-                    const eventDate = new Date(event.startDate)
-                    return (
-                      <ItemRow key={event.id} onClick={() => onEventClick?.(event.id)}>
-                        <IconContainer>
-                          <div className="size-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center">
-                            <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
-                              {format(eventDate, 'MMM', { locale: id })}
-                            </span>
-                            <span className="text-sm font-bold text-primary leading-tight">
-                              {format(eventDate, 'd')}
-                            </span>
-                          </div>
-                        </IconContainer>
-                        
-                        <TextContent 
-                          title={event.title}
-                          subtitle={`${format(eventDate, 'HH:mm')}${event.location ? ` · ${event.location}` : ''}`}
-                        />
-                        
-                        <ActionContainer>
-                          {/* Empty placeholder for alignment */}
-                        </ActionContainer>
-                      </ItemRow>
-                    )
-                  })}
-                </div>
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Calendar className="size-4 text-primary" />
+                <span className="text-sm font-semibold">Upcoming Events</span>
+              </div>
+              {upcomingEvents.length > 0 && onViewAllEvents && (
+                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs text-primary" onClick={onViewAllEvents}>
+                  View All<ChevronRight className="size-3 ml-0.5" />
+                </Button>
               )}
             </div>
-          </section>
+            
+            {isLoadingEvents ? (
+              <div className="flex justify-center py-4"><Loader2 className="size-5 animate-spin text-muted-foreground" /></div>
+            ) : upcomingEvents.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-4">No upcoming events</p>
+            ) : (
+              <div className="space-y-2">
+                {upcomingEvents.slice(0, 5).map((event) => {
+                  const eventDate = new Date(event.startDate)
+                  return (
+                    <div key={event.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group" onClick={() => onEventClick?.(event.id)}>
+                      <div className="size-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center shrink-0">
+                        <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">{format(eventDate, 'MMM', { locale: id })}</span>
+                        <span className="text-sm font-bold text-primary leading-tight">{format(eventDate, 'd')}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate group-hover:text-primary">{event.title}</p>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Clock className="size-3 shrink-0" />
+                          <span>{format(eventDate, 'HH:mm')}</span>
+                          {event.location && <><span className="mx-0.5">·</span><span className="truncate">{event.location}</span></>}
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
 
           <Separator />
 
