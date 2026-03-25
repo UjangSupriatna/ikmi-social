@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion } from "framer-motion"
-import { UserPlus, Users, TrendingUp, Calendar, Clock, MapPin, ChevronRight, Loader2 } from "lucide-react"
+import { UserPlus, Users, TrendingUp, Calendar, Clock, ChevronRight, Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 
@@ -150,37 +150,6 @@ export function RightSidebar({
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
   }
 
-  // Section Header Component - Consistent across all sections
-  const SectionHeader = ({ 
-    icon, 
-    title, 
-    onViewAll, 
-    hasItems 
-  }: { 
-    icon: React.ReactNode
-    title: string
-    onViewAll?: () => void
-    hasItems: boolean
-  }) => (
-    <div className="flex items-center justify-between h-6">
-      <div className="flex items-center gap-2">
-        <span className="text-primary shrink-0">{icon}</span>
-        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-      </div>
-      {hasItems && onViewAll && (
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="h-6 px-2 text-xs text-primary hover:text-primary/80"
-          onClick={onViewAll}
-        >
-          View All
-          <ChevronRight className="size-3 ml-0.5" />
-        </Button>
-      )}
-    </div>
-  )
-
   // Loading Component
   const LoadingState = () => (
     <div className="flex justify-center py-4">
@@ -198,46 +167,53 @@ export function RightSidebar({
       <ScrollArea className="flex-1">
         <div className="p-4 space-y-5">
           {/* People You May Know */}
-          <motion.section
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <SectionHeader
-              icon={<UserPlus className="size-4" />}
-              title="People You May Know"
-              onViewAll={onViewAllPeople}
-              hasItems={suggestedUsers.length > 0}
-            />
+          <section>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <UserPlus className="size-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">People You May Know</span>
+              </div>
+              {suggestedUsers.length > 0 && onViewAllPeople && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-6 px-2 text-xs text-primary"
+                  onClick={onViewAllPeople}
+                >
+                  View All<ChevronRight className="size-3 ml-0.5" />
+                </Button>
+              )}
+            </div>
             
-            <div className="mt-3 space-y-1">
-              {isLoadingUsers ? (
-                <LoadingState />
-              ) : suggestedUsers.length === 0 ? (
-                <EmptyState message="No suggestions available" />
-              ) : (
-                suggestedUsers.slice(0, 5).map((user, index) => (
-                  <motion.div
+            {/* Items */}
+            {isLoadingUsers ? (
+              <LoadingState />
+            ) : suggestedUsers.length === 0 ? (
+              <EmptyState message="No suggestions available" />
+            ) : (
+              <div className="space-y-1">
+                {suggestedUsers.slice(0, 5).map((user) => (
+                  <div
                     key={user.id}
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
                     className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
                   >
-                    {/* Avatar - fixed width */}
-                    <Avatar className="size-10 shrink-0">
-                      <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                      <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
-                        {getInitials(user.name)}
-                      </AvatarFallback>
-                    </Avatar>
+                    {/* Avatar - 40x40px */}
+                    <div className="w-10 h-10 shrink-0">
+                      <Avatar className="w-full h-full">
+                        <AvatarImage src={user.avatar || undefined} alt={user.name} />
+                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
+                          {getInitials(user.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
                     
-                    {/* Content - flexible */}
-                    <div className="flex-1 min-w-0 py-0.5">
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                         {user.name}
                       </p>
-                      <p className="text-xs text-muted-foreground truncate">
+                      <p className="text-xs text-muted-foreground truncate leading-5">
                         {user.mutualFriends > 0 
                           ? `${user.mutualFriends} mutual friends`
                           : `@${user.username}`
@@ -245,129 +221,143 @@ export function RightSidebar({
                       </p>
                     </div>
                     
-                    {/* Action - fixed width */}
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="size-8 shrink-0"
-                      disabled={sendingRequestId === user.id}
-                      onClick={() => handleSendRequest(user.id)}
-                    >
-                      {sendingRequestId === user.id ? (
-                        <Loader2 className="size-3.5 animate-spin" />
-                      ) : (
-                        <UserPlus className="size-3.5" />
-                      )}
-                    </Button>
-                  </motion.div>
-                ))
-              )}
-            </div>
-          </motion.section>
+                    {/* Action Button - 32x32px */}
+                    <div className="w-8 h-8 shrink-0">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="w-full h-full"
+                        disabled={sendingRequestId === user.id}
+                        onClick={() => handleSendRequest(user.id)}
+                      >
+                        {sendingRequestId === user.id ? (
+                          <Loader2 className="size-3.5 animate-spin" />
+                        ) : (
+                          <UserPlus className="size-3.5" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
 
           <Separator />
 
           {/* Popular Groups */}
-          <motion.section
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-          >
-            <SectionHeader
-              icon={<TrendingUp className="size-4" />}
-              title="Popular Groups"
-              onViewAll={onViewAllGroups}
-              hasItems={suggestedGroups.length > 0}
-            />
+          <section>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="size-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">Popular Groups</span>
+              </div>
+              {suggestedGroups.length > 0 && onViewAllGroups && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-6 px-2 text-xs text-primary"
+                  onClick={onViewAllGroups}
+                >
+                  View All<ChevronRight className="size-3 ml-0.5" />
+                </Button>
+              )}
+            </div>
             
-            <div className="mt-3 space-y-1">
-              {isLoadingGroups ? (
-                <LoadingState />
-              ) : suggestedGroups.length === 0 ? (
-                <EmptyState message="No groups available" />
-              ) : (
-                suggestedGroups.slice(0, 5).map((group, index) => (
-                  <motion.div
+            {/* Items */}
+            {isLoadingGroups ? (
+              <LoadingState />
+            ) : suggestedGroups.length === 0 ? (
+              <EmptyState message="No groups available" />
+            ) : (
+              <div className="space-y-1">
+                {suggestedGroups.slice(0, 5).map((group) => (
+                  <div
                     key={group.id}
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
                     className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
                     onClick={() => onGroupClick?.(group.id)}
                   >
-                    {/* Group Avatar - fixed width */}
-                    <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                    {/* Group Icon - 40x40px */}
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
                       {group.avatar ? (
-                        <img src={group.avatar} alt={group.name} className="size-full object-cover" />
+                        <img src={group.avatar} alt={group.name} className="w-full h-full object-cover" />
                       ) : (
                         <Users className="size-5 text-primary" />
                       )}
                     </div>
                     
-                    {/* Content - flexible */}
-                    <div className="flex-1 min-w-0 py-0.5">
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                         {group.name}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-muted-foreground leading-5">
                         {group.memberCount.toLocaleString()} members
                       </p>
                     </div>
                     
-                    {/* Action - fixed width */}
-                    {!group.isMember && onJoinGroup && (
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="size-8 shrink-0"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onJoinGroup(group.id)
-                        }}
-                      >
-                        <UserPlus className="size-3.5" />
-                      </Button>
-                    )}
-                  </motion.div>
-                ))
-              )}
-            </div>
-          </motion.section>
+                    {/* Action Button - 32x32px */}
+                    <div className="w-8 h-8 shrink-0">
+                      {!group.isMember && onJoinGroup && (
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="w-full h-full"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onJoinGroup(group.id)
+                          }}
+                        >
+                          <UserPlus className="size-3.5" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
 
           <Separator />
 
           {/* Upcoming Events */}
-          <motion.section
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.25 }}
-          >
-            <SectionHeader
-              icon={<Calendar className="size-4" />}
-              title="Upcoming Events"
-              onViewAll={onViewAllEvents}
-              hasItems={upcomingEvents.length > 0}
-            />
+          <section>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Calendar className="size-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">Upcoming Events</span>
+              </div>
+              {upcomingEvents.length > 0 && onViewAllEvents && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-6 px-2 text-xs text-primary"
+                  onClick={onViewAllEvents}
+                >
+                  View All<ChevronRight className="size-3 ml-0.5" />
+                </Button>
+              )}
+            </div>
             
-            <div className="mt-3 space-y-1">
-              {isLoadingEvents ? (
-                <LoadingState />
-              ) : upcomingEvents.length === 0 ? (
-                <EmptyState message="No upcoming events" />
-              ) : (
-                upcomingEvents.slice(0, 5).map((event, index) => {
+            {/* Items */}
+            {isLoadingEvents ? (
+              <LoadingState />
+            ) : upcomingEvents.length === 0 ? (
+              <EmptyState message="No upcoming events" />
+            ) : (
+              <div className="space-y-1">
+                {upcomingEvents.slice(0, 5).map((event) => {
                   const eventDate = new Date(event.startDate)
                   return (
-                    <motion.div
+                    <div
                       key={event.id}
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
                       className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
                       onClick={() => onEventClick?.(event.id)}
                     >
-                      {/* Event Date Card - fixed width */}
-                      <div className="size-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center shrink-0">
+                      {/* Event Date Card - 40x40px */}
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center shrink-0">
                         <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
                           {format(eventDate, 'MMM', { locale: id })}
                         </span>
@@ -376,12 +366,12 @@ export function RightSidebar({
                         </span>
                       </div>
                       
-                      {/* Content - flexible */}
-                      <div className="flex-1 min-w-0 py-0.5">
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
                           {event.title}
                         </p>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground leading-5">
                           <Clock className="size-3 shrink-0" />
                           <span>{format(eventDate, 'HH:mm')}</span>
                           {event.location && (
@@ -392,22 +382,20 @@ export function RightSidebar({
                           )}
                         </div>
                       </div>
-                    </motion.div>
+                      
+                      {/* No action button for events - keep placeholder for alignment */}
+                      <div className="w-8 h-8 shrink-0" />
+                    </div>
                   )
-                })
-              )}
-            </div>
-          </motion.section>
+                })}
+              </div>
+            )}
+          </section>
 
           <Separator />
 
           {/* Quick Links */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-            className="text-xs text-muted-foreground"
-          >
+          <div className="text-xs text-muted-foreground">
             <div className="flex flex-wrap gap-x-2 gap-y-1">
               <span className="hover:text-foreground transition-colors cursor-pointer">About</span>
               <span>·</span>
@@ -418,7 +406,7 @@ export function RightSidebar({
               <span className="hover:text-foreground transition-colors cursor-pointer">Terms</span>
             </div>
             <p className="mt-2">© 2024 IKMI SOCIAL</p>
-          </motion.div>
+          </div>
         </div>
       </ScrollArea>
     </div>
