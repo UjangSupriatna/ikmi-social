@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -20,14 +20,14 @@ model User {
   username      String    @unique
   avatar        String?
   coverPhoto    String?
-  bio           String?
+  bio           String?   @db.Text
   phone         String?
   address       String?
   website       String?
   
   // CV/Profile Data
-  headline      String?   // e.g., "Software Developer at Company"
-  skills        String?   // JSON array of skills
+  headline      String?
+  skills        String?   @db.Text // JSON array of skills
   birthday      DateTime?
   gender        String?   // "male", "female", "other"
   
@@ -59,14 +59,14 @@ model User {
 
 model Post {
   id          String    @id @default(cuid())
-  content     String
-  images      String?   // JSON array of image URLs
-  location    String?   // Location string
+  content     String    @db.Text
+  images      String?   @db.Text // JSON array of image URLs
+  location    String?
   visibility  String    @default("public") // "public", "friends", "private"
   
   // For group posts
   groupId     String?
-  group       Group?    @relation(fields: [groupId], references: [id])
+  group       Group?    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   
   authorId    String
   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
@@ -85,8 +85,8 @@ model Post {
 
 model Comment {
   id        String    @id @default(cuid())
-  content   String
-  images    String?   // JSON array of image URLs
+  content   String    @db.Text
+  images    String?   @db.Text // JSON array of image URLs
   
   postId    String
   post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -95,7 +95,7 @@ model Comment {
   author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   
   parentId  String?   // For nested replies
-  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies   Comment[] @relation("CommentReplies")
   
   createdAt DateTime  @default(now())
@@ -152,7 +152,7 @@ model Friendship {
 model Group {
   id          String   @id @default(cuid())
   name        String
-  description String?
+  description String?   @db.Text
   coverImage  String?
   avatar      String?
   privacy     String   @default("public") // "public", "private"
@@ -197,7 +197,7 @@ model Notification {
   type        String   // "friend_request", "like", "comment", "group_invite", etc.
   title       String
   message     String
-  data        String?  // JSON for additional data
+  data        String?   @db.Text // JSON for additional data
   
   read        Boolean  @default(false)
   createdAt   DateTime @default(now())
@@ -219,7 +219,7 @@ model Education {
   field       String?
   startDate   DateTime
   endDate     DateTime?
-  description String?
+  description String?   @db.Text
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -240,7 +240,7 @@ model Experience {
   startDate   DateTime
   endDate     DateTime?
   current     Boolean  @default(false)
-  description String?
+  description String?   @db.Text
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -256,9 +256,9 @@ model Achievement {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   title       String
-  description String?
+  description String?   @db.Text
   date        DateTime?
-  issuer      String?  // Organization that issued the achievement
+  issuer      String?
   
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -268,19 +268,19 @@ model Achievement {
 }
 
 model Portfolio {
-  id          String   @id @default(cuid())
+  id           String   @id @default(cuid())
   
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  title       String
-  description String?
-  link        String?
-  images      String?  // JSON array of image URLs
-  technologies String? // JSON array of technologies used
+  title        String
+  description  String?   @db.Text
+  link         String?
+  images       String?   @db.Text // JSON array of image URLs
+  technologies String?   @db.Text // JSON array of technologies used
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@index([userId])
   @@map("portfolios")
@@ -309,7 +309,7 @@ model ConversationParticipant {
   userId         String
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  joinedAt       DateTime @default(now())
+  joinedAt       DateTime  @default(now())
   lastReadAt     DateTime?
   clearedAt      DateTime?  // When user cleared their chat history
 
@@ -328,8 +328,8 @@ model Message {
   senderId       String
   sender         User     @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
   
-  content        String
-  images         String?  // JSON array of image URLs
+  content        String   @db.Text
+  images         String?  @db.Text // JSON array of image URLs
   
   read           Boolean  @default(false)
   createdAt      DateTime @default(now())
@@ -345,17 +345,17 @@ model Event {
   id              String   @id @default(cuid())
   
   title           String
-  description     String?
-  image           String?  // Event poster/cover image
+  description     String?   @db.Text
+  image           String?
   
   // Date & Time
   startDate       DateTime
   endDate         DateTime?
   
   // Location
-  location        String?  // Physical location or "Online"
+  location        String?
   locationType    String   @default("offline") // "offline", "online", "hybrid"
-  onlineUrl       String?  // Zoom/Meet link for online events
+  onlineUrl       String?
   
   // Category & Type
   category        String   @default("seminar") // "seminar", "workshop", "competition", "gathering", "webinar", "other"
@@ -363,7 +363,7 @@ model Event {
   // Capacity
   maxAttendees    Int?
   isFree          Boolean  @default(true)
-  price           String?  // Price info if not free
+  price           String?
   
   // Status
   status          String   @default("upcoming") // "upcoming", "ongoing", "completed", "cancelled"

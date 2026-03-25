@@ -92,7 +92,7 @@ export async function GET(
     // Update participant's lastReadAt using raw query
     await db.$executeRaw`
       UPDATE conversation_participants
-      SET lastReadAt = datetime('now')
+      SET lastReadAt = NOW()
       WHERE userId = ${user.id} AND conversationId = ${conversationId}
     `
 

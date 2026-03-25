@@ -20,10 +20,10 @@ export async function DELETE(
     const { id: conversationId } = await params
     console.log('Conversation ID:', conversationId)
     
-    // Use raw SQL to update clearedAt to avoid Prisma client cache issues
+    // Use raw SQL to update clearedAt
     const result = await db.$executeRaw`
       UPDATE conversation_participants 
-      SET clearedAt = datetime('now')
+      SET clearedAt = NOW()
       WHERE userId = ${user.id} AND conversationId = ${conversationId}
     `
     
