@@ -30,7 +30,7 @@ import { GroupsList, CreateGroupDialog, GroupHeader, GroupMembers } from '@/comp
 import { PostCard } from '@/components/post/post-card'
 import type { PostData } from '@/components/post/post-card'
 import { useNavigationStore } from '@/stores/navigation-store'
-import { useSocket } from '@/hooks/use-socket'
+import { useMessagePolling, useConversationsPolling } from '@/hooks/use-polling'
 import { cn } from '@/lib/utils'
 import { 
   ConversationsList, 
@@ -619,57 +619,26 @@ export default function IKMISocial() {
     setViewingUserPosts((prev) => prev.filter((post) => post.id !== postId))
   }
 
-  // ========== SOCKET FOR REAL-TIME MESSAGING ==========
-  const handleSocketNewMessage = React.useCallback((message: any) => {
-    // Add new message to the current conversation if it matches
-    if (selectedConversation && message.conversationId === selectedConversation.id) {
-      setMessages((prev) => [...prev, {
-        ...message,
-        isOwn: message.sender.id === user?.id
-      }])
-    }
-    // Update conversations list
-    fetchConversations()
-  }, [selectedConversation, user?.id, fetchConversations])
-
-  // Handle message sent confirmation from socket
-  const handleSocketMessageSent = React.useCallback((message: any) => {
-    // Add the confirmed message to the UI (replace optimistic if any)
-    if (selectedConversation && message.conversationId === selectedConversation.id) {
-      setMessages((prev) => {
-        // Check if message already exists (avoid duplicates)
-        const exists = prev.some(m => m.id === message.id)
-        if (exists) return prev
-        return [...prev, {
-          ...message,
-          isOwn: true
-        }]
-      })
-    }
-    // Update conversations list
-    fetchConversations()
-  }, [selectedConversation, fetchConversations])
-
-  const { 
-    isConnected: isSocketConnected,
-    joinConversation,
-    sendMessage: sendSocketMessage,
-    emitTyping,
-    emitStopTyping,
-    markAsRead
-  } = useSocket({
-    userId: user?.id,
-    onNewMessage: handleSocketNewMessage,
-    onMessageSent: handleSocketMessageSent,
+  // ========== POLLING FOR REAL-TIME MESSAGING ==========
+  // Poll for new messages in the selected conversation
+  useMessagePolling({
+    conversationId: selectedConversation?.id || null,
+    enabled: isAuthenticated && currentView === 'messages' && !!selectedConversation,
+    interval: 2000, // Poll every 2 seconds
+    onNewMessages: (newMessages) => {
+      setMessages(newMessages)
+    },
   })
 
-  // Join conversation room when selected
-  React.useEffect(() => {
-    if (selectedConversation && isSocketConnected) {
-      joinConversation(selectedConversation.id)
-      markAsRead(selectedConversation.id, user?.id || '')
-    }
-  }, [selectedConversation, isSocketConnected, joinConversation, markAsRead, user?.id])
+  // Poll for conversations list updates
+  useConversationsPolling({
+    enabled: isAuthenticated && currentView === 'messages',
+    interval: 5000, // Poll every 5 seconds
+    onUpdate: ({ conversations: newConversations, totalUnread }) => {
+      setConversations(newConversations)
+      setUnreadMessagesCount(totalUnread)
+    },
+  })
 
   // Refresh messages manually
   const handleRefreshMessages = async () => {
@@ -734,40 +703,25 @@ export default function IKMISocial() {
     
     setIsSendingMessage(true)
     try {
-      // Use socket if connected (real-time), otherwise fall back to API
-      if (isSocketConnected) {
-        // Send via socket only - socket will save to DB and broadcast
-        sendSocketMessage({
-          conversationId: selectedConversation.id,
-          senderId: user.id,
-          content,
-          images,
-        })
-        // Remove optimistic message - socket will emit message-sent with real message
-        setMessages((prev) => prev.filter((msg) => msg.id !== tempId))
+      // Send via API
+      const response = await fetch(`/api/messages/${selectedConversation.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content, images }),
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        // Replace optimistic message with real one
+        setMessages((prev) => 
+          prev.map((msg) => msg.id === tempId ? data.message : msg)
+        )
         // Update conversation list
         fetchConversations()
       } else {
-        // Fallback to API when socket not connected
-        const response = await fetch(`/api/messages/${selectedConversation.id}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content, images }),
-        })
-        
-        if (response.ok) {
-          const data = await response.json()
-          // Replace optimistic message with real one
-          setMessages((prev) => 
-            prev.map((msg) => msg.id === tempId ? data.message : msg)
-          )
-          // Update conversation list
-          fetchConversations()
-        } else {
-          // Remove optimistic message on error
-          setMessages((prev) => prev.filter((msg) => msg.id !== tempId))
-          toast({ title: 'Error', description: 'Failed to send message', variant: 'destructive' })
-        }
+        // Remove optimistic message on error
+        setMessages((prev) => prev.filter((msg) => msg.id !== tempId))
+        toast({ title: 'Error', description: 'Failed to send message', variant: 'destructive' })
       }
     } catch {
       // Remove optimistic message on error
@@ -1484,7 +1438,6 @@ export default function IKMISocial() {
                     currentUserId={user?.id}
                     isLoading={isLoadingMessages}
                     isSending={isSendingMessage}
-                    isConnected={isSocketConnected}
                     onBack={() => setSelectedConversation(null)}
                     onSendMessage={handleSendMessage}
                     onRefresh={handleRefreshMessages}

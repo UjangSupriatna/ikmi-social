@@ -46,15 +46,17 @@ notepad .env
 Isi file `.env` dengan:
 
 ```env
-# Database
+# Database (SQLite)
 DATABASE_URL="file:./db/dev.db"
 
-# NextAuth Configuration
-NEXTAUTH_SECRET="your-super-secret-key-change-this-in-production"
-NEXTAUTH_URL="http://localhost:3000"
+# atau MySQL (XAMPP/phpMyAdmin)
+# DATABASE_URL="mysql://root:@localhost:3306/ikmi_social"
+
+# JWT Secret
+JWT_SECRET="your-super-secret-key-change-this-in-production"
 ```
 
-**Generate NEXTAUTH_SECRET:**
+**Generate JWT_SECRET:**
 
 ```bash
 # Opsi 1: Menggunakan Node.js
@@ -88,23 +90,6 @@ Buka browser dan akses: **http://localhost:3000**
 
 ---
 
-## 🔧 Menjalankan Chat Service (Real-time Messaging)
-
-Untuk fitur chat real-time, jalankan chat service di terminal terpisah:
-
-```bash
-# Terminal baru - Chat Service
-cd ikmi-social/mini-services/chat-service
-npm install
-npm run dev
-```
-
-Chat service akan berjalan di port **3003**
-
-**Tanpa chat service**, aplikasi tetap bisa berjalan tapi chat tidak akan real-time (hanya polling).
-
----
-
 ## 📁 Struktur Folder
 
 ```
@@ -129,8 +114,6 @@ ikmi-social/
 │   └── schema.prisma         # Database schema
 ├── db/
 │   └── dev.db               # SQLite database
-├── mini-services/
-│   └── chat-service/        # Real-time chat service
 └── .env                     # Environment variables
 ```
 
@@ -167,7 +150,7 @@ Aplikasi mendukung dark mode secara otomatis mengikuti pengaturan sistem. Untuk 
 
 1. **Authentication**
    - Register & Login
-   - Session management dengan NextAuth.js
+   - Session management dengan JWT
 
 2. **Profile**
    - Edit profile (nama, bio, avatar)
@@ -194,9 +177,11 @@ Aplikasi mendukung dark mode secara otomatis mengikuti pengaturan sistem. Untuk 
    - Event categories
 
 7. **Messages**
-   - Real-time chat (dengan socket.io)
+   - Real-time chat (dengan polling)
    - Image sharing
    - Read receipts
+   - Clear chat (per user)
+   - View profile from chat
 
 8. **Notifications**
    - Friend requests
@@ -233,20 +218,12 @@ netstat -ano | findstr :3000
 taskkill /PID <PID> /F
 ```
 
-### Chat tidak real-time
-
-Pastikan chat service berjalan:
-```bash
-cd mini-services/chat-service
-npm run dev
-```
-
 ---
 
 ## 🔐 Security Notes
 
 1. **JANGAN** commit file `.env` ke GitHub
-2. **JANGAN** gunakan NEXTAUTH_SECRET yang sama untuk production
+2. **JANGAN** gunakan JWT_SECRET yang sama untuk production
 3. Ubah file `.env` sesuai environment (development/production)
 
 ---

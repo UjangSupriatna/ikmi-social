@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Send, Image as ImageIcon, Loader2, Wifi, WifiOff, RefreshCw, MoreVertical, Trash2, User } from 'lucide-react'
+import { ArrowLeft, Send, Image as ImageIcon, Loader2, Wifi, RefreshCw, MoreVertical, Trash2, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -61,7 +61,6 @@ interface ConversationViewProps {
   currentUserId?: string
   isLoading?: boolean
   isSending?: boolean
-  isConnected?: boolean
   onBack: () => void
   onSendMessage: (content: string, images?: string[]) => void
   onRefresh?: () => void
@@ -76,7 +75,6 @@ export function ConversationView({
   currentUserId,
   isLoading = false,
   isSending = false,
-  isConnected = false,
   onBack,
   onSendMessage,
   onRefresh,
@@ -191,17 +189,10 @@ export function ConversationView({
         <div className="flex-1 min-w-0">
           <h3 className="font-medium truncate">{conversationName}</h3>
           <div className="flex items-center gap-1.5">
-            {isConnected ? (
-              <div className="flex items-center gap-1 text-xs text-green-600">
-                <Wifi className="size-3" />
-                <span>Connected</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1 text-xs text-amber-600">
-                <WifiOff className="size-3" />
-                <span>Offline</span>
-              </div>
-            )}
+            <div className="flex items-center gap-1 text-xs text-green-600">
+              <Wifi className="size-3" />
+              <span>Live</span>
+            </div>
           </div>
         </div>
 
