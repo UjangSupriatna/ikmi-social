@@ -313,19 +313,13 @@ export function ConversationView({
                   </div>
 
                   {/* Messages */}
-                  <div className="space-y-3">
-                    {group.messages.map((msg, index) => {
-                      const prevMsg = group.messages[index - 1]
-                      const showAvatar = !prevMsg || prevMsg.sender.id !== msg.sender.id
-
-                      return (
-                        <MessageBubble
-                          key={msg.id}
-                          {...msg}
-                          showAvatar={showAvatar}
-                        />
-                      )
-                    })}
+                  <div className="space-y-2">
+                    {group.messages.map((msg) => (
+                      <MessageBubble
+                        key={msg.id}
+                        {...msg}
+                      />
+                    ))}
                   </div>
                 </div>
               ))}

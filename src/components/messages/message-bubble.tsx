@@ -3,7 +3,6 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import { Check, CheckCheck } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { cn } from '@/lib/utils'
 
 interface MessageBubbleProps {
@@ -25,11 +24,9 @@ interface MessageBubbleProps {
 export function MessageBubble({
   content,
   images = [],
-  sender,
   createdAt,
   read = false,
   isOwn,
-  showAvatar = true,
 }: MessageBubbleProps) {
   const formatTime = (date: Date) => {
     const d = new Date(date)
@@ -39,49 +36,25 @@ export function MessageBubble({
     })
   }
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 10, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.2 }}
       className={cn(
-        'flex gap-2 max-w-[85%]',
+        'flex gap-1 max-w-[80%]',
         isOwn ? 'ml-auto flex-row-reverse' : 'mr-auto'
       )}
     >
-      {/* Avatar */}
-      {showAvatar && !isOwn && (
-        <Avatar className="size-8 shrink-0 mt-1">
-          <AvatarImage src={sender.avatar || undefined} alt={sender.name} />
-          <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
-            {getInitials(sender.name)}
-          </AvatarFallback>
-        </Avatar>
-      )}
-
       {/* Message Content */}
-      <div className={cn('flex flex-col gap-0.5', isOwn ? 'items-end' : 'items-start')}>
-        {/* Sender name (for group chats) */}
-        {!isOwn && showAvatar && (
-          <span className="text-xs text-muted-foreground ml-1">{sender.name}</span>
-        )}
-
+      <div className={cn('flex flex-col gap-1', isOwn ? 'items-end' : 'items-start')}>
         {/* Bubble */}
         <div
           className={cn(
-            'px-3 py-2 rounded-2xl',
+            'px-4 py-2.5 rounded-2xl',
             isOwn
-              ? 'bg-primary text-primary-foreground rounded-br-md'
-              : 'bg-muted rounded-bl-md'
+              ? 'bg-primary text-primary-foreground rounded-br-sm'
+              : 'bg-muted rounded-bl-sm'
           )}
         >
           {/* Text content */}
