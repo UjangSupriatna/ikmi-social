@@ -679,6 +679,24 @@ export default function IKMISocial() {
     setIsRefreshingMessages(false)
   }
 
+  // Clear chat messages
+  const handleClearChat = async () => {
+    if (!selectedConversation) return
+    try {
+      const response = await fetch(`/api/messages/${selectedConversation.id}/clear`, {
+        method: 'DELETE'
+      })
+      if (response.ok) {
+        setMessages([])
+        toast({ title: 'Chat cleared', description: 'All messages have been deleted' })
+      } else {
+        toast({ title: 'Error', description: 'Failed to clear chat', variant: 'destructive' })
+      }
+    } catch {
+      toast({ title: 'Error', description: 'Failed to clear chat', variant: 'destructive' })
+    }
+  }
+
   // ========== MESSAGE HANDLERS ==========
   const handleSelectConversation = async (conversation: ConversationData) => {
     setSelectedConversation(conversation)
@@ -1463,6 +1481,7 @@ export default function IKMISocial() {
                     onSendMessage={handleSendMessage}
                     onRefresh={handleRefreshMessages}
                     isRefreshing={isRefreshingMessages}
+                    onClearChat={handleClearChat}
                   />
                 ) : (
                   <div className="text-center p-8">
