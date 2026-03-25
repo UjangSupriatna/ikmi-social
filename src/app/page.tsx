@@ -681,18 +681,26 @@ export default function IKMISocial() {
 
   // Clear chat messages
   const handleClearChat = async () => {
-    if (!selectedConversation) return
+    if (!selectedConversation) {
+      toast({ title: 'Error', description: 'No conversation selected', variant: 'destructive' })
+      return
+    }
     try {
+      console.log('Clearing chat for conversation:', selectedConversation.id)
       const response = await fetch(`/api/messages/${selectedConversation.id}/clear`, {
         method: 'DELETE'
       })
+      console.log('Clear response status:', response.status)
       if (response.ok) {
         setMessages([])
         toast({ title: 'Chat cleared', description: 'All messages have been deleted' })
       } else {
-        toast({ title: 'Error', description: 'Failed to clear chat', variant: 'destructive' })
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Clear error:', errorData)
+        toast({ title: 'Error', description: errorData.error || 'Failed to clear chat', variant: 'destructive' })
       }
-    } catch {
+    } catch (error) {
+      console.error('Clear exception:', error)
       toast({ title: 'Error', description: 'Failed to clear chat', variant: 'destructive' })
     }
   }
@@ -1109,7 +1117,7 @@ export default function IKMISocial() {
         )}
 
         {/* PROFILE VIEW */}
-        {currentView === 'profile' && (
+        {currentView === 'profile' && !viewingUserId && (
           <motion.div key="profile" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="max-w-4xl mx-auto p-3 sm:p-4">
             {isLoadingProfile ? (
               <div className="space-y-4">
@@ -1484,8 +1492,7 @@ export default function IKMISocial() {
                     onClearChat={handleClearChat}
                     onViewProfile={(userId) => {
                       setSelectedConversation(null)
-                      setCurrentView('profile')
-                      setViewingUserId(userId)
+                      viewUserProfile(userId)
                     }}
                   />
                 ) : (

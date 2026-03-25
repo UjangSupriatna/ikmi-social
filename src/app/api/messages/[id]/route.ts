@@ -15,51 +15,49 @@ export async function GET(
 
     const { id: conversationId } = await params
 
-    // Check if user is a participant
-    const participation = await db.conversationParticipant.findUnique({
-      where: {
-        userId_conversationId: {
-          userId: user.id,
-          conversationId,
-        },
-      },
-    })
+    // Check if user is a participant and get clearedAt using raw query
+    const participants = await db.$queryRaw<any[]>`
+      SELECT userId, conversationId, joinedAt, lastReadAt, clearedAt
+      FROM conversation_participants
+      WHERE userId = ${user.id} AND conversationId = ${conversationId}
+    `
 
-    if (!participation) {
+    if (!participants || participants.length === 0) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
+
+    const participation = participants[0]
 
     // Get URL search params for pagination
     const { searchParams } = new URL(request.url)
     const cursor = searchParams.get('cursor')
     const limit = parseInt(searchParams.get('limit') || '50')
 
-    // Build where clause - filter out messages before clearedAt if exists
-    const whereClause: any = { conversationId }
+    // Build query - filter out messages before clearedAt if exists
+    let messagesQuery: any
     if (participation.clearedAt) {
-      whereClause.createdAt = { gte: participation.clearedAt }
+      messagesQuery = db.$queryRaw<any[]>`
+        SELECT m.id, m.conversationId, m.senderId, m.content, m.images, m.read, m.createdAt,
+               u.id as 'sender.id', u.name as 'sender.name', u.username as 'sender.username', u.avatar as 'sender.avatar'
+        FROM messages m
+        JOIN users u ON m.senderId = u.id
+        WHERE m.conversationId = ${conversationId} AND m.createdAt >= ${participation.clearedAt}
+        ORDER BY m.createdAt DESC
+        LIMIT ${limit}
+      `
+    } else {
+      messagesQuery = db.$queryRaw<any[]>`
+        SELECT m.id, m.conversationId, m.senderId, m.content, m.images, m.read, m.createdAt,
+               u.id as 'sender.id', u.name as 'sender.name', u.username as 'sender.username', u.avatar as 'sender.avatar'
+        FROM messages m
+        JOIN users u ON m.senderId = u.id
+        WHERE m.conversationId = ${conversationId}
+        ORDER BY m.createdAt DESC
+        LIMIT ${limit}
+      `
     }
 
-    // Get messages
-    const messages = await db.message.findMany({
-      where: whereClause,
-      include: {
-        sender: {
-          select: {
-            id: true,
-            name: true,
-            username: true,
-            avatar: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: limit,
-      ...(cursor && {
-        skip: 1,
-        cursor: { id: cursor },
-      }),
-    })
+    const messages = await messagesQuery
 
     // Get conversation info with participants
     const conversation = await db.conversation.findUnique({
@@ -91,25 +89,26 @@ export async function GET(
       data: { read: true },
     })
 
-    // Update participant's lastReadAt
-    await db.conversationParticipant.update({
-      where: {
-        userId_conversationId: {
-          userId: user.id,
-          conversationId,
-        },
-      },
-      data: { lastReadAt: new Date() },
-    })
+    // Update participant's lastReadAt using raw query
+    await db.$executeRaw`
+      UPDATE conversation_participants
+      SET lastReadAt = datetime('now')
+      WHERE userId = ${user.id} AND conversationId = ${conversationId}
+    `
 
     // Format response
-    const formattedMessages = messages.reverse().map((msg) => ({
+    const formattedMessages = messages.reverse().map((msg: any) => ({
       id: msg.id,
       content: msg.content,
       images: msg.images ? JSON.parse(msg.images) : [],
-      sender: msg.sender,
+      sender: {
+        id: msg.senderId,
+        name: msg['sender.name'],
+        username: msg['sender.username'],
+        avatar: msg['sender.avatar'],
+      },
       createdAt: msg.createdAt,
-      read: msg.read,
+      read: msg.read === 1 || msg.read === true,
       isOwn: msg.senderId === user.id,
     }))
 

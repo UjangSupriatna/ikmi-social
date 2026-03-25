@@ -1,3 +1,4 @@
+// Next.js configuration - updated to force rebuild
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {

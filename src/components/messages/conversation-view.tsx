@@ -66,7 +66,7 @@ interface ConversationViewProps {
   onSendMessage: (content: string, images?: string[]) => void
   onRefresh?: () => void
   isRefreshing?: boolean
-  onClearChat?: () => void
+  onClearChat?: () => Promise<void> | void
   onViewProfile?: (userId: string) => void
 }
 
@@ -135,9 +135,14 @@ export function ConversationView({
     }
   }
 
-  const handleClearChat = () => {
-    onClearChat?.()
-    setShowClearDialog(false)
+  const handleClearChat = async () => {
+    try {
+      await onClearChat?.()
+    } catch (error) {
+      console.error('Failed to clear chat:', error)
+    } finally {
+      setShowClearDialog(false)
+    }
   }
 
   // Group messages by date
@@ -251,7 +256,10 @@ export function ConversationView({
           <AlertDialogFooter>
             <AlertDialogCancel>Batal</AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleClearChat}
+              onClick={(e) => {
+                e.preventDefault()
+                handleClearChat()
+              }}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Hapus

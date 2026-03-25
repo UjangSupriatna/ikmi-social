@@ -1,4 +1,6 @@
+// API endpoint to clear chat for current user only
 import { NextRequest, NextResponse } from 'next/server'
+import { getCurrentUser } from '@/lib/auth'
 import { db } from '@/lib/db'
 
 export async function DELETE(
@@ -6,28 +8,30 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: conversationId } = await params
+    console.log('DELETE /api/messages/[id]/clear - Start')
+    const user = await getCurrentUser()
+    console.log('User:', user?.id)
     
-    // Get current user from session/cookie
-    const userId = request.cookies.get('userId')?.value
-    
-    if (!userId) {
+    if (!user) {
+      console.log('Unauthorized - no user')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
     
-    // Update the participant's clearedAt timestamp
-    // This marks the chat as "cleared" only for this user
-    await db.conversationParticipant.update({
-      where: {
-        userId_conversationId: {
-          userId,
-          conversationId
-        }
-      },
-      data: {
-        clearedAt: new Date()
-      }
-    })
+    const { id: conversationId } = await params
+    console.log('Conversation ID:', conversationId)
+    
+    // Use raw SQL to update clearedAt to avoid Prisma client cache issues
+    const result = await db.$executeRaw`
+      UPDATE conversation_participants 
+      SET clearedAt = datetime('now')
+      WHERE userId = ${user.id} AND conversationId = ${conversationId}
+    `
+    
+    console.log('Update result:', result)
+    
+    if (result === 0) {
+      return NextResponse.json({ error: 'Conversation not found' }, { status: 404 })
+    }
     
     return NextResponse.json({ success: true, message: 'Chat cleared for you' })
   } catch (error) {
