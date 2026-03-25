@@ -134,12 +134,12 @@ export function GroupHeader({
             {group.privacy === 'private' ? (
               <>
                 <Lock className="size-3" />
-                Private Group
+                Group Private
               </>
             ) : (
               <>
                 <Globe className="size-3" />
-                Public Group
+                Group Publik
               </>
             )}
           </Badge>
@@ -164,17 +164,17 @@ export function GroupHeader({
               <div className="min-w-0">
                 <h1 className="text-xl sm:text-2xl font-bold truncate">{group.name}</h1>
                 <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-                  <span>Created by {group.createdBy.name}</span>
+                  <span>Dibuat oleh {group.createdBy.name}</span>
                   <span>·</span>
                   <span>{formatTimestamp(group.createdAt)}</span>
                 </div>
                 <div className="flex items-center gap-4 mt-2">
                   <div className="flex items-center gap-1 text-sm text-muted-foreground">
                     <Users className="size-4" />
-                    <span>{group.memberCount.toLocaleString()} members</span>
+                    <span>{group.memberCount.toLocaleString()} anggota</span>
                   </div>
                   <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <span>{group.postCount.toLocaleString()} posts</span>
+                    <span>{group.postCount.toLocaleString()} post</span>
                   </div>
                 </div>
               </div>
@@ -193,12 +193,12 @@ export function GroupHeader({
                     ) : group.isMember ? (
                       <>
                         <UserCheck className="size-4" />
-                        <span className="hidden sm:inline">Leave</span>
+                        <span className="hidden sm:inline">Keluar</span>
                       </>
                     ) : (
                       <>
                         <UserPlus className="size-4" />
-                        <span className="hidden sm:inline">Join Group</span>
+                        <span className="hidden sm:inline">Gabung Group</span>
                       </>
                     )}
                   </Button>
@@ -235,7 +235,7 @@ export function GroupHeader({
                             onClick={handleDelete}
                           >
                             <Trash2 className="size-4 mr-2" />
-                            Delete Group
+                            Hapus Group
                           </DropdownMenuItem>
                         </>
                       )}
@@ -259,13 +259,13 @@ export function GroupHeader({
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Group</AlertDialogTitle>
+            <AlertDialogTitle>Hapus Group</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete &quot;{group.name}&quot;? This will permanently remove the group and all its posts. This action cannot be undone.
+              Apakah Anda yakin ingin menghapus &quot;{group.name}&quot;? Group dan semua post akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isDeleting}>Batal</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               disabled={isDeleting}
@@ -274,10 +274,10 @@ export function GroupHeader({
               {isDeleting ? (
                 <>
                   <Loader2 className="size-4 mr-2 animate-spin" />
-                  Deleting...
+                  Menghapus...
                 </>
               ) : (
-                'Delete'
+                'Hapus'
               )}
             </AlertDialogAction>
           </AlertDialogFooter>

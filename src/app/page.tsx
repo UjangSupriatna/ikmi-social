@@ -605,6 +605,28 @@ export default function IKMISocial() {
     }
   }
 
+  // Handle delete group
+  const handleDeleteGroup = async (groupId: string) => {
+    setJoiningGroupId(groupId)
+    try {
+      const response = await fetch(`/api/groups/${groupId}`, { method: 'DELETE' })
+      if (response.ok) {
+        toast({ title: 'Group deleted', description: 'The group has been permanently deleted' })
+        fetchGroups()
+        setSelectedGroup(null)
+        setGroupMembers([])
+        setGroupPosts([])
+      } else {
+        const data = await response.json()
+        toast({ title: 'Error', description: data.error || 'Failed to delete group', variant: 'destructive' })
+      }
+    } catch {
+      toast({ title: 'Error', description: 'Failed to delete group', variant: 'destructive' })
+    } finally {
+      setJoiningGroupId(null)
+    }
+  }
+
   // Handle group post deletion
   const handleGroupPostDeleted = (postId: string) => {
     setGroupPosts((prev) => prev.filter((post) => post.id !== postId))
@@ -1215,6 +1237,45 @@ export default function IKMISocial() {
                       }
                     })
                   }}
+                  onMessage={async () => {
+                    // Create or get conversation with this user
+                    try {
+                      const response = await fetch('/api/messages', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ participantIds: [viewingUser.id] }),
+                      })
+                      if (response.ok) {
+                        const data = await response.json()
+                        // Navigate to messages
+                        setViewingUserId(null)
+                        setCurrentView('messages')
+                        // Set the conversation
+                        if (data.conversation) {
+                          const newConv: ConversationData = {
+                            id: data.conversation.id,
+                            createdAt: data.conversation.createdAt,
+                            updatedAt: data.conversation.updatedAt,
+                            participants: [{
+                              id: viewingUser.id,
+                              name: viewingUser.name,
+                              username: viewingUser.username,
+                              avatar: viewingUser.avatar,
+                              headline: viewingUser.headline,
+                            }],
+                            lastMessage: null,
+                            unreadCount: 0,
+                          }
+                          setSelectedConversation(newConv)
+                          setMessages([])
+                          fetchMessages(data.conversation.id)
+                        }
+                      }
+                    } catch (error) {
+                      console.error('Failed to start conversation:', error)
+                      toast({ title: 'Error', description: 'Failed to start conversation', variant: 'destructive' })
+                    }
+                  }}
                 />
                 
                 <ProfileStats
@@ -1368,8 +1429,10 @@ export default function IKMISocial() {
               group={selectedGroup}
               onJoin={() => handleJoinGroup(selectedGroup.id)}
               onLeave={() => handleLeaveGroup(selectedGroup.id)}
+              onDelete={() => handleDeleteGroup(selectedGroup.id)}
               onShare={() => { navigator.clipboard.writeText(window.location.href); toast({ title: 'Link copied' }); }}
               isJoiningOrLeaving={joiningGroupId === selectedGroup.id}
+              isDeleting={joiningGroupId === selectedGroup.id}
             />
             
             <Tabs defaultValue="posts" className="mt-4 sm:mt-6">

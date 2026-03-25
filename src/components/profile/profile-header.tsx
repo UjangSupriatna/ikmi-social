@@ -103,7 +103,7 @@ export function ProfileHeader({
           {isOwnProfile ? (
             <Button onClick={onEditProfile} variant="outline" size="sm" className="gap-1.5 h-8 sm:h-9">
               <Edit2 className="size-3.5 sm:size-4" />
-              <span className="hidden sm:inline">Edit Profile</span>
+              <span className="hidden sm:inline">Edit Profil</span>
               <span className="sm:hidden">Edit</span>
             </Button>
           ) : (
@@ -111,22 +111,22 @@ export function ProfileHeader({
               {friendshipStatus?.status === 'accepted' ? (
                 <Button variant="outline" size="sm" disabled className="gap-1.5 h-8 sm:h-9">
                   <UserPlus className="size-3.5 sm:size-4" />
-                  <span className="hidden sm:inline">Friends</span>
+                  <span className="hidden sm:inline">Teman</span>
                 </Button>
               ) : friendshipStatus?.status === 'pending' ? (
                 <Button variant="outline" size="sm" disabled className="gap-1.5 h-8 sm:h-9">
-                  {friendshipStatus.isSender ? 'Sent' : 'Pending'}
+                  {friendshipStatus.isSender ? 'Terkirim' : 'Menunggu'}
                 </Button>
               ) : (
                 <Button onClick={onAddFriend} size="sm" className="gap-1.5 h-8 sm:h-9">
                   <UserPlus className="size-3.5 sm:size-4" />
-                  <span className="hidden sm:inline">Add Friend</span>
-                  <span className="sm:hidden">Add</span>
+                  <span className="hidden sm:inline">Tambah Teman</span>
+                  <span className="sm:hidden">Tambah</span>
                 </Button>
               )}
               <Button onClick={onMessage} variant="outline" size="sm" className="gap-1.5 h-8 sm:h-9">
                 <MessageCircle className="size-3.5 sm:size-4" />
-                <span className="hidden sm:inline">Message</span>
+                <span className="hidden sm:inline">Pesan</span>
               </Button>
             </>
           )}
@@ -183,7 +183,7 @@ export function ProfileHeader({
             )}
             <div className="flex items-center gap-1">
               <Calendar className="size-3.5 sm:size-4" />
-              <span>Joined {formattedJoinDate}</span>
+              <span>Bergabung {formattedJoinDate}</span>
             </div>
           </div>
 
