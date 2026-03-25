@@ -53,11 +53,6 @@ interface RightSidebarProps {
   onViewAllEvents?: () => void
 }
 
-// Item dimensions
-const ITEM_HEIGHT = 56 // p-2 (8px top + 8px bottom) + content (40px)
-const ICON_SIZE = 40
-const ACTION_SIZE = 32
-
 export function RightSidebar({ 
   className, 
   onGroupClick, 
@@ -178,16 +173,16 @@ export function RightSidebar({
     onViewAll?: () => void
     hasItems: boolean
   }) => (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between h-5">
       <div className="flex items-center gap-2">
         <Icon className="size-4 text-primary shrink-0" />
-        <span className="text-sm font-semibold text-foreground">{title}</span>
+        <span className="text-sm font-semibold text-foreground leading-5">{title}</span>
       </div>
       {hasItems && onViewAll && (
         <Button 
           variant="ghost" 
           size="sm" 
-          className="h-6 px-2 text-xs text-primary"
+          className="h-5 px-2 text-xs text-primary"
           onClick={onViewAll}
         >
           View All<ChevronRight className="size-3 ml-0.5" />
@@ -196,8 +191,47 @@ export function RightSidebar({
     </div>
   )
 
-  // Common row style for all items
-  const rowStyle = "flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
+  // Item Row Component - ensures consistent layout
+  const ItemRow = ({ 
+    children,
+    onClick 
+  }: { 
+    children: React.ReactNode
+    onClick?: () => void 
+  }) => (
+    <div 
+      className="flex items-center gap-3 px-2 py-1.5 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group h-[52px]"
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  )
+
+  // Icon Container - fixed size
+  const IconContainer = ({ children }: { children: React.ReactNode }) => (
+    <div className="w-10 h-10 shrink-0 flex items-center justify-center">
+      {children}
+    </div>
+  )
+
+  // Text Content - fixed height with two lines
+  const TextContent = ({ title, subtitle }: { title: string; subtitle: string }) => (
+    <div className="flex-1 min-w-0 h-10 flex flex-col justify-center">
+      <p className="text-sm font-medium text-foreground truncate leading-5 group-hover:text-primary transition-colors">
+        {title}
+      </p>
+      <p className="text-xs text-muted-foreground truncate leading-5">
+        {subtitle}
+      </p>
+    </div>
+  )
+
+  // Action Container - fixed size
+  const ActionContainer = ({ children }: { children: React.ReactNode }) => (
+    <div className="w-8 h-8 shrink-0">
+      {children}
+    </div>
+  )
 
   return (
     <div className={cn("flex h-full flex-col", className)}>
@@ -219,45 +253,42 @@ export function RightSidebar({
               ) : suggestedUsers.length === 0 ? (
                 <EmptyState message="No suggestions available" />
               ) : (
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   {suggestedUsers.slice(0, 5).map((user) => (
-                    <div key={user.id} className={rowStyle}>
-                      {/* Avatar */}
-                      <Avatar className="size-10 shrink-0">
-                        <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                        <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
-                          {getInitials(user.name)}
-                        </AvatarFallback>
-                      </Avatar>
+                    <ItemRow key={user.id}>
+                      <IconContainer>
+                        <Avatar className="size-10">
+                          <AvatarImage src={user.avatar || undefined} alt={user.name} />
+                          <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
+                            {getInitials(user.name)}
+                          </AvatarFallback>
+                        </Avatar>
+                      </IconContainer>
                       
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                          {user.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground truncate">
-                          {user.mutualFriends > 0 
-                            ? `${user.mutualFriends} mutual friends`
-                            : `@${user.username}`
-                          }
-                        </p>
-                      </div>
+                      <TextContent 
+                        title={user.name}
+                        subtitle={user.mutualFriends > 0 
+                          ? `${user.mutualFriends} mutual friends`
+                          : `@${user.username}`
+                        }
+                      />
                       
-                      {/* Action */}
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="size-8 shrink-0"
-                        disabled={sendingRequestId === user.id}
-                        onClick={() => handleSendRequest(user.id)}
-                      >
-                        {sendingRequestId === user.id ? (
-                          <Loader2 className="size-3.5 animate-spin" />
-                        ) : (
-                          <UserPlus className="size-3.5" />
-                        )}
-                      </Button>
-                    </div>
+                      <ActionContainer>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="size-8"
+                          disabled={sendingRequestId === user.id}
+                          onClick={() => handleSendRequest(user.id)}
+                        >
+                          {sendingRequestId === user.id ? (
+                            <Loader2 className="size-3.5 animate-spin" />
+                          ) : (
+                            <UserPlus className="size-3.5" />
+                          )}
+                        </Button>
+                      </ActionContainer>
+                    </ItemRow>
                   ))}
                 </div>
               )}
@@ -281,47 +312,40 @@ export function RightSidebar({
               ) : suggestedGroups.length === 0 ? (
                 <EmptyState message="No groups available" />
               ) : (
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   {suggestedGroups.slice(0, 5).map((group) => (
-                    <div 
-                      key={group.id} 
-                      className={rowStyle}
-                      onClick={() => onGroupClick?.(group.id)}
-                    >
-                      {/* Group Icon */}
-                      <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
-                        {group.avatar ? (
-                          <img src={group.avatar} alt={group.name} className="size-full object-cover" />
-                        ) : (
-                          <Users className="size-5 text-primary" />
+                    <ItemRow key={group.id} onClick={() => onGroupClick?.(group.id)}>
+                      <IconContainer>
+                        <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center overflow-hidden">
+                          {group.avatar ? (
+                            <img src={group.avatar} alt={group.name} className="size-full object-cover" />
+                          ) : (
+                            <Users className="size-5 text-primary" />
+                          )}
+                        </div>
+                      </IconContainer>
+                      
+                      <TextContent 
+                        title={group.name}
+                        subtitle={`${group.memberCount.toLocaleString()} members`}
+                      />
+                      
+                      <ActionContainer>
+                        {!group.isMember && onJoinGroup && (
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="size-8"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onJoinGroup(group.id)
+                            }}
+                          >
+                            <UserPlus className="size-3.5" />
+                          </Button>
                         )}
-                      </div>
-                      
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                          {group.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {group.memberCount.toLocaleString()} members
-                        </p>
-                      </div>
-                      
-                      {/* Action */}
-                      {!group.isMember && onJoinGroup && (
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          className="size-8 shrink-0"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            onJoinGroup(group.id)
-                          }}
-                        >
-                          <UserPlus className="size-3.5" />
-                        </Button>
-                      )}
-                    </div>
+                      </ActionContainer>
+                    </ItemRow>
                   ))}
                 </div>
               )}
@@ -345,42 +369,31 @@ export function RightSidebar({
               ) : upcomingEvents.length === 0 ? (
                 <EmptyState message="No upcoming events" />
               ) : (
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   {upcomingEvents.slice(0, 5).map((event) => {
                     const eventDate = new Date(event.startDate)
                     return (
-                      <div 
-                        key={event.id} 
-                        className={rowStyle}
-                        onClick={() => onEventClick?.(event.id)}
-                      >
-                        {/* Date Card */}
-                        <div className="size-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center shrink-0">
-                          <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
-                            {format(eventDate, 'MMM', { locale: id })}
-                          </span>
-                          <span className="text-sm font-bold text-primary leading-tight">
-                            {format(eventDate, 'd')}
-                          </span>
-                        </div>
-                        
-                        {/* Info */}
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                            {event.title}
-                          </p>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <Clock className="size-3 shrink-0" />
-                            <span>{format(eventDate, 'HH:mm')}</span>
-                            {event.location && (
-                              <>
-                                <span className="mx-0.5">·</span>
-                                <span className="truncate">{event.location}</span>
-                              </>
-                            )}
+                      <ItemRow key={event.id} onClick={() => onEventClick?.(event.id)}>
+                        <IconContainer>
+                          <div className="size-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center">
+                            <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
+                              {format(eventDate, 'MMM', { locale: id })}
+                            </span>
+                            <span className="text-sm font-bold text-primary leading-tight">
+                              {format(eventDate, 'd')}
+                            </span>
                           </div>
-                        </div>
-                      </div>
+                        </IconContainer>
+                        
+                        <TextContent 
+                          title={event.title}
+                          subtitle={`${format(eventDate, 'HH:mm')}${event.location ? ` · ${event.location}` : ''}`}
+                        />
+                        
+                        <ActionContainer>
+                          {/* Empty placeholder for alignment */}
+                        </ActionContainer>
+                      </ItemRow>
                     )
                   })}
                 </div>
