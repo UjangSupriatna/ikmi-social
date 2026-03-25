@@ -83,7 +83,7 @@ export function GroupsList({
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search groups..."
+                placeholder="Cari group..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10"
@@ -111,8 +111,8 @@ export function GroupsList({
           <h3 className="font-medium text-lg mb-2">{emptyMessage}</h3>
           <p className="text-muted-foreground text-sm mb-6">
             {showCreateButton
-              ? 'Be the first to create a group and bring people together!'
-              : 'Try adjusting your search or filters.'}
+              ? 'Jadilah yang pertama membuat group dan menghubungkan orang-orang!'
+              : 'Coba ubah pencarian atau filter Anda.'}
           </p>
           {showCreateButton && onCreateGroup && (
             <Button onClick={onCreateGroup} className="gap-2">
@@ -158,10 +158,10 @@ export function GroupsList({
                 {isLoading ? (
                   <>
                     <Loader2 className="size-4 animate-spin" />
-                    Loading...
+                    Memuat...
                   </>
                 ) : (
-                  'Load More'
+                  'Lihat Lebih Banyak'
                 )}
               </Button>
             </div>

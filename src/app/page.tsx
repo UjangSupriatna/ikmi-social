@@ -1395,11 +1395,13 @@ export default function IKMISocial() {
                 </div>
                 <div>
                   <h1 className="text-xl sm:text-2xl font-bold">Groups</h1>
-                  <p className="text-xs sm:text-sm text-muted-foreground">Connect with communities</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">Terhubung dengan komunitas</p>
                 </div>
               </div>
               <Button onClick={() => setCreateGroupOpen(true)} size="sm" className="gap-1.5 h-8 sm:h-9">
-                <span className="text-xs sm:text-sm">Create</span>
+                <Plus className="size-4" />
+                <span className="hidden sm:inline">Buat Group</span>
+                <span className="sm:hidden">Buat</span>
               </Button>
             </div>
             
