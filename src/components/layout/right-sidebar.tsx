@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { motion } from "framer-motion"
 import { UserPlus, Users, TrendingUp, Calendar, Clock, ChevronRight, Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
@@ -53,6 +52,11 @@ interface RightSidebarProps {
   onViewAllGroups?: () => void
   onViewAllEvents?: () => void
 }
+
+// Item dimensions
+const ITEM_HEIGHT = 56 // p-2 (8px top + 8px bottom) + content (40px)
+const ICON_SIZE = 40
+const ACTION_SIZE = 32
 
 export function RightSidebar({ 
   className, 
@@ -162,71 +166,88 @@ export function RightSidebar({
     <p className="text-sm text-muted-foreground text-center py-4">{message}</p>
   )
 
+  // Section Header Component
+  const SectionHeader = ({ 
+    icon: Icon, 
+    title, 
+    onViewAll, 
+    hasItems 
+  }: { 
+    icon: React.ElementType
+    title: string
+    onViewAll?: () => void
+    hasItems: boolean
+  }) => (
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
+        <Icon className="size-4 text-primary shrink-0" />
+        <span className="text-sm font-semibold text-foreground">{title}</span>
+      </div>
+      {hasItems && onViewAll && (
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-6 px-2 text-xs text-primary"
+          onClick={onViewAll}
+        >
+          View All<ChevronRight className="size-3 ml-0.5" />
+        </Button>
+      )}
+    </div>
+  )
+
+  // Common row style for all items
+  const rowStyle = "flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
+
   return (
     <div className={cn("flex h-full flex-col", className)}>
       <ScrollArea className="flex-1">
-        <div className="p-4 space-y-5">
+        <div className="p-4 space-y-4">
+          
           {/* People You May Know */}
           <section>
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <UserPlus className="size-4 text-primary" />
-                <span className="text-sm font-semibold text-foreground">People You May Know</span>
-              </div>
-              {suggestedUsers.length > 0 && onViewAllPeople && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-6 px-2 text-xs text-primary"
-                  onClick={onViewAllPeople}
-                >
-                  View All<ChevronRight className="size-3 ml-0.5" />
-                </Button>
-              )}
-            </div>
+            <SectionHeader
+              icon={UserPlus}
+              title="People You May Know"
+              onViewAll={onViewAllPeople}
+              hasItems={suggestedUsers.length > 0}
+            />
             
-            {/* Items */}
-            {isLoadingUsers ? (
-              <LoadingState />
-            ) : suggestedUsers.length === 0 ? (
-              <EmptyState message="No suggestions available" />
-            ) : (
-              <div className="space-y-1">
-                {suggestedUsers.slice(0, 5).map((user) => (
-                  <div
-                    key={user.id}
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
-                  >
-                    {/* Avatar - 40x40px */}
-                    <div className="w-10 h-10 shrink-0">
-                      <Avatar className="w-full h-full">
+            <div className="mt-3">
+              {isLoadingUsers ? (
+                <LoadingState />
+              ) : suggestedUsers.length === 0 ? (
+                <EmptyState message="No suggestions available" />
+              ) : (
+                <div className="space-y-1">
+                  {suggestedUsers.slice(0, 5).map((user) => (
+                    <div key={user.id} className={rowStyle}>
+                      {/* Avatar */}
+                      <Avatar className="size-10 shrink-0">
                         <AvatarImage src={user.avatar || undefined} alt={user.name} />
                         <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
                           {getInitials(user.name)}
                         </AvatarFallback>
                       </Avatar>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                        {user.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground truncate leading-5">
-                        {user.mutualFriends > 0 
-                          ? `${user.mutualFriends} mutual friends`
-                          : `@${user.username}`
-                        }
-                      </p>
-                    </div>
-                    
-                    {/* Action Button - 32x32px */}
-                    <div className="w-8 h-8 shrink-0">
+                      
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                          {user.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground truncate">
+                          {user.mutualFriends > 0 
+                            ? `${user.mutualFriends} mutual friends`
+                            : `@${user.username}`
+                          }
+                        </p>
+                      </div>
+                      
+                      {/* Action */}
                       <Button
                         variant="outline"
                         size="icon"
-                        className="w-full h-full"
+                        className="size-8 shrink-0"
                         disabled={sendingRequestId === user.id}
                         onClick={() => handleSendRequest(user.id)}
                       >
@@ -237,73 +258,61 @@ export function RightSidebar({
                         )}
                       </Button>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
 
           <Separator />
 
           {/* Popular Groups */}
           <section>
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <TrendingUp className="size-4 text-primary" />
-                <span className="text-sm font-semibold text-foreground">Popular Groups</span>
-              </div>
-              {suggestedGroups.length > 0 && onViewAllGroups && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-6 px-2 text-xs text-primary"
-                  onClick={onViewAllGroups}
-                >
-                  View All<ChevronRight className="size-3 ml-0.5" />
-                </Button>
-              )}
-            </div>
+            <SectionHeader
+              icon={TrendingUp}
+              title="Popular Groups"
+              onViewAll={onViewAllGroups}
+              hasItems={suggestedGroups.length > 0}
+            />
             
-            {/* Items */}
-            {isLoadingGroups ? (
-              <LoadingState />
-            ) : suggestedGroups.length === 0 ? (
-              <EmptyState message="No groups available" />
-            ) : (
-              <div className="space-y-1">
-                {suggestedGroups.slice(0, 5).map((group) => (
-                  <div
-                    key={group.id}
-                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
-                    onClick={() => onGroupClick?.(group.id)}
-                  >
-                    {/* Group Icon - 40x40px */}
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
-                      {group.avatar ? (
-                        <img src={group.avatar} alt={group.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <Users className="size-5 text-primary" />
-                      )}
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                        {group.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground leading-5">
-                        {group.memberCount.toLocaleString()} members
-                      </p>
-                    </div>
-                    
-                    {/* Action Button - 32x32px */}
-                    <div className="w-8 h-8 shrink-0">
+            <div className="mt-3">
+              {isLoadingGroups ? (
+                <LoadingState />
+              ) : suggestedGroups.length === 0 ? (
+                <EmptyState message="No groups available" />
+              ) : (
+                <div className="space-y-1">
+                  {suggestedGroups.slice(0, 5).map((group) => (
+                    <div 
+                      key={group.id} 
+                      className={rowStyle}
+                      onClick={() => onGroupClick?.(group.id)}
+                    >
+                      {/* Group Icon */}
+                      <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                        {group.avatar ? (
+                          <img src={group.avatar} alt={group.name} className="size-full object-cover" />
+                        ) : (
+                          <Users className="size-5 text-primary" />
+                        )}
+                      </div>
+                      
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                          {group.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {group.memberCount.toLocaleString()} members
+                        </p>
+                      </div>
+                      
+                      {/* Action */}
                       {!group.isMember && onJoinGroup && (
                         <Button
                           variant="outline"
                           size="icon"
-                          className="w-full h-full"
+                          className="size-8 shrink-0"
                           onClick={(e) => {
                             e.stopPropagation()
                             onJoinGroup(group.id)
@@ -313,83 +322,70 @@ export function RightSidebar({
                         </Button>
                       )}
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
 
           <Separator />
 
           {/* Upcoming Events */}
           <section>
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <Calendar className="size-4 text-primary" />
-                <span className="text-sm font-semibold text-foreground">Upcoming Events</span>
-              </div>
-              {upcomingEvents.length > 0 && onViewAllEvents && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="h-6 px-2 text-xs text-primary"
-                  onClick={onViewAllEvents}
-                >
-                  View All<ChevronRight className="size-3 ml-0.5" />
-                </Button>
-              )}
-            </div>
+            <SectionHeader
+              icon={Calendar}
+              title="Upcoming Events"
+              onViewAll={onViewAllEvents}
+              hasItems={upcomingEvents.length > 0}
+            />
             
-            {/* Items */}
-            {isLoadingEvents ? (
-              <LoadingState />
-            ) : upcomingEvents.length === 0 ? (
-              <EmptyState message="No upcoming events" />
-            ) : (
-              <div className="space-y-1">
-                {upcomingEvents.slice(0, 5).map((event) => {
-                  const eventDate = new Date(event.startDate)
-                  return (
-                    <div
-                      key={event.id}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer group"
-                      onClick={() => onEventClick?.(event.id)}
-                    >
-                      {/* Event Date Card - 40x40px */}
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center shrink-0">
-                        <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
-                          {format(eventDate, 'MMM', { locale: id })}
-                        </span>
-                        <span className="text-sm font-bold text-primary leading-tight">
-                          {format(eventDate, 'd')}
-                        </span>
-                      </div>
-                      
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
-                          {event.title}
-                        </p>
-                        <div className="flex items-center gap-1 text-xs text-muted-foreground leading-5">
-                          <Clock className="size-3 shrink-0" />
-                          <span>{format(eventDate, 'HH:mm')}</span>
-                          {event.location && (
-                            <>
-                              <span className="mx-0.5">·</span>
-                              <span className="truncate">{event.location}</span>
-                            </>
-                          )}
+            <div className="mt-3">
+              {isLoadingEvents ? (
+                <LoadingState />
+              ) : upcomingEvents.length === 0 ? (
+                <EmptyState message="No upcoming events" />
+              ) : (
+                <div className="space-y-1">
+                  {upcomingEvents.slice(0, 5).map((event) => {
+                    const eventDate = new Date(event.startDate)
+                    return (
+                      <div 
+                        key={event.id} 
+                        className={rowStyle}
+                        onClick={() => onEventClick?.(event.id)}
+                      >
+                        {/* Date Card */}
+                        <div className="size-10 rounded-lg bg-primary/10 flex flex-col items-center justify-center shrink-0">
+                          <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
+                            {format(eventDate, 'MMM', { locale: id })}
+                          </span>
+                          <span className="text-sm font-bold text-primary leading-tight">
+                            {format(eventDate, 'd')}
+                          </span>
+                        </div>
+                        
+                        {/* Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                            {event.title}
+                          </p>
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            <Clock className="size-3 shrink-0" />
+                            <span>{format(eventDate, 'HH:mm')}</span>
+                            {event.location && (
+                              <>
+                                <span className="mx-0.5">·</span>
+                                <span className="truncate">{event.location}</span>
+                              </>
+                            )}
+                          </div>
                         </div>
                       </div>
-                      
-                      {/* No action button for events - keep placeholder for alignment */}
-                      <div className="w-8 h-8 shrink-0" />
-                    </div>
-                  )
-                })}
-              </div>
-            )}
+                    )
+                  })}
+                </div>
+              )}
+            </div>
           </section>
 
           <Separator />
