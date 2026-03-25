@@ -2,13 +2,20 @@
 
 import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Send, Image as ImageIcon, Loader2, Wifi, WifiOff, RefreshCw, Trash2 } from 'lucide-react'
+import { ArrowLeft, Send, Image as ImageIcon, Loader2, Wifi, WifiOff, RefreshCw, MoreVertical, Trash2, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { MessageBubble } from './message-bubble'
 import { cn } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,7 +25,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
 interface MessageData {
@@ -61,6 +67,7 @@ interface ConversationViewProps {
   onRefresh?: () => void
   isRefreshing?: boolean
   onClearChat?: () => void
+  onViewProfile?: (userId: string) => void
 }
 
 export function ConversationView({
@@ -75,8 +82,10 @@ export function ConversationView({
   onRefresh,
   isRefreshing = false,
   onClearChat,
+  onViewProfile,
 }: ConversationViewProps) {
   const [messageInput, setMessageInput] = React.useState('')
+  const [showClearDialog, setShowClearDialog] = React.useState(false)
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const inputRef = React.useRef<HTMLInputElement>(null)
   const { toast } = useToast()
@@ -89,6 +98,8 @@ export function ConversationView({
   const conversationAvatar = conversation.participants.length === 1
     ? conversation.participants[0].avatar
     : null
+  
+  const otherUser = conversation.participants[0]
 
   const getInitials = (name: string) => {
     return name
@@ -122,6 +133,11 @@ export function ConversationView({
       e.preventDefault()
       handleSend()
     }
+  }
+
+  const handleClearChat = () => {
+    onClearChat?.()
+    setShowClearDialog(false)
   }
 
   // Group messages by date
@@ -198,35 +214,51 @@ export function ConversationView({
             </Button>
           )}
           
-          {/* Clear Chat Button */}
-          {onClearChat && (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-9 text-destructive hover:text-destructive">
-                  <Trash2 className="size-5" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Hapus Semua Pesan?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Tindakan ini akan menghapus semua pesan di percakapan ini. Tindakan ini tidak dapat dibatalkan.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Batal</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={onClearChat}
-                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                  >
-                    Hapus
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          )}
+          {/* More Options Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="size-9">
+                <MoreVertical className="size-5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => onViewProfile?.(otherUser.id)}>
+                <User className="size-4 mr-2" />
+                Lihat Profil
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                onClick={() => setShowClearDialog(true)}
+                className="text-destructive focus:text-destructive"
+              >
+                <Trash2 className="size-4 mr-2" />
+                Hapus Chat
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
+
+      {/* Clear Chat Confirmation Dialog */}
+      <AlertDialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Hapus Chat?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Pesan akan dihapus hanya untuk Anda. Lawan chat tetap bisa melihat pesan.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Batal</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleClearChat}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Hapus
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Messages - flex-1 with overflow */}
       <div className="flex-1 min-h-0 overflow-y-auto" ref={scrollRef}>

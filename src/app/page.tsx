@@ -1482,6 +1482,11 @@ export default function IKMISocial() {
                     onRefresh={handleRefreshMessages}
                     isRefreshing={isRefreshingMessages}
                     onClearChat={handleClearChat}
+                    onViewProfile={(userId) => {
+                      setSelectedConversation(null)
+                      setCurrentView('profile')
+                      setViewingUserId(userId)
+                    }}
                   />
                 ) : (
                   <div className="text-center p-8">

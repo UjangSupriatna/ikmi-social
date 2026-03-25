@@ -311,6 +311,7 @@ model ConversationParticipant {
   
   joinedAt       DateTime @default(now())
   lastReadAt     DateTime?
+  clearedAt      DateTime?  // When user cleared their chat history
 
   @@unique([userId, conversationId])
   @@index([conversationId])

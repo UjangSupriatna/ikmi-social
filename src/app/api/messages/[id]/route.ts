@@ -34,9 +34,15 @@ export async function GET(
     const cursor = searchParams.get('cursor')
     const limit = parseInt(searchParams.get('limit') || '50')
 
+    // Build where clause - filter out messages before clearedAt if exists
+    const whereClause: any = { conversationId }
+    if (participation.clearedAt) {
+      whereClause.createdAt = { gte: participation.clearedAt }
+    }
+
     // Get messages
     const messages = await db.message.findMany({
-      where: { conversationId },
+      where: whereClause,
       include: {
         sender: {
           select: {

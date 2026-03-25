@@ -8,14 +8,28 @@ export async function DELETE(
   try {
     const { id: conversationId } = await params
     
-    // Delete all messages in the conversation
-    await db.message.deleteMany({
+    // Get current user from session/cookie
+    const userId = request.cookies.get('userId')?.value
+    
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    
+    // Update the participant's clearedAt timestamp
+    // This marks the chat as "cleared" only for this user
+    await db.conversationParticipant.update({
       where: {
-        conversationId
+        userId_conversationId: {
+          userId,
+          conversationId
+        }
+      },
+      data: {
+        clearedAt: new Date()
       }
     })
     
-    return NextResponse.json({ success: true, message: 'Chat cleared' })
+    return NextResponse.json({ success: true, message: 'Chat cleared for you' })
   } catch (error) {
     console.error('Error clearing chat:', error)
     return NextResponse.json(
