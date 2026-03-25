@@ -193,6 +193,13 @@ export async function POST(
       data: { updatedAt: new Date() },
     })
 
+    // Reset clearedAt for the sender so they can see their new messages
+    await db.$executeRaw`
+      UPDATE conversation_participants
+      SET clearedAt = NULL
+      WHERE userId = ${user.id} AND conversationId = ${conversationId}
+    `
+
     return NextResponse.json({
       message: {
         id: message.id,
