@@ -162,7 +162,7 @@ export function ConversationView({
   const messageGroups = groupMessagesByDate(messages)
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full min-h-0">
       {/* Header */}
       <div className="flex items-center gap-2 p-3 border-b bg-card shrink-0">
         <Button variant="ghost" size="icon" onClick={onBack} className="size-9 shrink-0 md:hidden">
@@ -242,7 +242,7 @@ export function ConversationView({
 
       {/* Video Call Overlay */}
       {isInCall === 'video' && (
-        <div className="bg-black/90 p-4 flex flex-col items-center justify-center gap-4">
+        <div className="bg-black/90 p-4 flex flex-col items-center justify-center gap-4 shrink-0">
           <Avatar className="size-24">
             <AvatarImage src={conversationAvatar || undefined} />
             <AvatarFallback className="bg-primary/10 text-primary text-2xl font-medium">
@@ -266,7 +266,7 @@ export function ConversationView({
 
       {/* Voice Call Bar */}
       {isInCall === 'voice' && (
-        <div className="bg-green-600 text-white p-3 flex items-center justify-center gap-4">
+        <div className="bg-green-600 text-white p-3 flex items-center justify-center gap-4 shrink-0">
           <Avatar className="size-8">
             <AvatarImage src={conversationAvatar || undefined} />
             <AvatarFallback className="bg-green-700 text-white text-xs">
@@ -288,8 +288,8 @@ export function ConversationView({
         </div>
       )}
 
-      {/* Messages */}
-      <ScrollArea className="flex-1" ref={scrollRef}>
+      {/* Messages - flex-1 with overflow */}
+      <div className="flex-1 min-h-0 overflow-y-auto" ref={scrollRef}>
         <div className="p-4 space-y-4">
           {isLoading ? (
             <div className="flex items-center justify-center h-32">
@@ -332,15 +332,15 @@ export function ConversationView({
             </AnimatePresence>
           )}
         </div>
-      </ScrollArea>
+      </div>
 
-      {/* Input - Always visible */}
-      <div className="p-3 border-t bg-card shrink-0">
+      {/* Input - Fixed at bottom, always visible */}
+      <div className="p-3 border-t bg-background shrink-0">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
             size="icon"
-            className="size-9 shrink-0"
+            className="size-10 shrink-0"
             disabled={isSending}
           >
             <ImageIcon className="size-5 text-muted-foreground" />
@@ -360,7 +360,7 @@ export function ConversationView({
             size="icon"
             onClick={handleSend}
             disabled={!messageInput.trim() || isSending}
-            className="size-9 shrink-0"
+            className="size-10 shrink-0"
           >
             {isSending ? (
               <Loader2 className="size-5 animate-spin" />

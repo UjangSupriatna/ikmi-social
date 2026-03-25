@@ -1429,7 +1429,7 @@ export default function IKMISocial() {
 
         {/* MESSAGES VIEW */}
         {currentView === 'messages' && !viewingUserId && (
-          <motion.div key="messages" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="h-[calc(100vh-80px)] md:h-[calc(100vh-20px)] p-2 sm:p-3 md:p-4">
+          <motion.div key="messages" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="h-[calc(100vh-60px)] md:h-[calc(100vh-20px)] p-2 sm:p-3 md:p-4">
             <div className="flex h-full max-w-5xl mx-auto bg-card rounded-lg border shadow-sm overflow-hidden">
               {/* Conversations List - Hidden on mobile when viewing a conversation */}
               <div className={cn(
@@ -1448,7 +1448,7 @@ export default function IKMISocial() {
 
               {/* Conversation View - Full width on mobile, hidden when no conversation selected */}
               <div className={cn(
-                "flex-1 flex flex-col bg-card",
+                "flex-1 flex flex-col bg-card min-h-0",
                 !selectedConversation && "hidden md:flex md:items-center md:justify-center"
               )}>
                 {selectedConversation ? (
