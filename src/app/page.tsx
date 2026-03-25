@@ -247,6 +247,7 @@ export default function IKMISocial() {
   const [selectedEvent, setSelectedEvent] = React.useState<EventData | null>(null)
   const [createEventOpen, setCreateEventOpen] = React.useState(false)
   const [editingEvent, setEditingEvent] = React.useState<EventData | null>(null)
+  const [eventsRefreshKey, setEventsRefreshKey] = React.useState(0)
   
   // Friends tab state
   const [friendsTab, setFriendsTab] = React.useState<'friends' | 'requests' | 'suggestions'>('friends')
@@ -1465,6 +1466,7 @@ export default function IKMISocial() {
             <EventsList
               onSelectEvent={(event) => setSelectedEvent(event)}
               onCreateEvent={() => setCreateEventOpen(true)}
+              refreshKey={eventsRefreshKey}
             />
           </motion.div>
         )}
@@ -1615,6 +1617,7 @@ export default function IKMISocial() {
         onEventCreated={() => {
           setEditingEvent(null)
           setSelectedEvent(null)
+          setEventsRefreshKey(prev => prev + 1) // Refresh events list
         }}
       />
     </MainLayout>

@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils'
 interface EventsListProps {
   onSelectEvent: (event: EventData) => void
   onCreateEvent: () => void
+  refreshKey?: number // Add refreshKey to trigger refresh
 }
 
 const categories = [
@@ -32,7 +33,7 @@ const categories = [
   { value: 'webinar', label: 'Webinar' },
 ]
 
-export function EventsList({ onSelectEvent, onCreateEvent }: EventsListProps) {
+export function EventsList({ onSelectEvent, onCreateEvent, refreshKey }: EventsListProps) {
   const [events, setEvents] = React.useState<EventData[]>([])
   const [isLoading, setIsLoading] = React.useState(true)
   const [status, setStatus] = React.useState('upcoming')
@@ -61,7 +62,7 @@ export function EventsList({ onSelectEvent, onCreateEvent }: EventsListProps) {
 
   React.useEffect(() => {
     fetchEvents()
-  }, [fetchEvents])
+  }, [fetchEvents, refreshKey]) // Add refreshKey dependency
 
   return (
     <div className="space-y-4">
