@@ -744,3 +744,112 @@ Error querying the database: Error code 14: Unable to open the database file
 
 [Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket WhHcvIh0hmj9LdrdAAAp)
 [Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket zBCkEh0sCYrLfXANAAAr)
+[Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket 5eSLasc_52rlyypiAAAv)
+[Chat] Client connected: 9oWBJNsd-A56XJmUAAAy
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket 9oWBJNsd-A56XJmUAAAy
+[Chat] Error in join: 116 | 
+117 | Example:
+118 |   await prisma.$executeRawUnsafe(\`ALTER USER prisma WITH PASSWORD '\${password}'\`)
+119 | 
+120 | More Information: https://pris.ly/d/execute-raw
+121 | `)}var So=({clientMethod:e,activeProvider:r})=>t=>{let n="",i;if(Vn(t))n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};else if(Array.isArray(t)){let[o,...s]=t;n=o,i={values:Wr(s||[]),__prismaRawParameters__:!0}}else switch(r){case"sqlite":case"mysql":{n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"cockroachdb":case"postgresql":case"postgres":{n=t.text,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"sqlserver":{n=Vl(t),i={values:Wr(t.values),__prismaRawParameters__:!0};break}default:throw new Error(`The ${r} provider does not support ${e}`)}return i?.values?Ql(`prisma.${e}(${n}, ${i.values})`):Ql(`prisma.${e}(${n})`),{query:n,parameters:i}},Wl={requestArgsToMiddlewareArgs(e){return[e.strings,...e.values]},middlewareArgsToRequestArgs(e){let[r,...t]=e;return new ie(r,t)}},Jl={requestArgsToMiddlewareArgs(e){return[e]},middlewareArgsToRequestArgs(e){return e[0]}};function Ro(e){return function(t,n){let i,o=(s=e)=>{try{return s===void 0||s?.kind==="itx"?i??=Kl(t(s)):K
+
+PrismaClientInitializationError: 
+Invalid `prisma.conversationParticipant.findMany()` invocation in
+/home/z/my-project/mini-services/chat-service/index.ts:39:67
+
+  36 userSockets.get(userId)!.add(socket.id)
+  37 
+  38 // Get user's conversations and join those rooms
+→ 39 const participations = await prisma.conversationParticipant.findMany(
+Error querying the database: Error code 14: Unable to open the database file
+ clientVersion: "6.19.2",
+  errorCode: undefined,
+  retryable: undefined,
+
+      at handleRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:7568)
+      at handleAndLogRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6593)
+      at request (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6300)
+
+[Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket 9oWBJNsd-A56XJmUAAAy)
+[Chat] Client connected: j8HO4efP0ykOX1AJAAA1
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket j8HO4efP0ykOX1AJAAA1
+[Chat] Error in join: 116 | 
+117 | Example:
+118 |   await prisma.$executeRawUnsafe(\`ALTER USER prisma WITH PASSWORD '\${password}'\`)
+119 | 
+120 | More Information: https://pris.ly/d/execute-raw
+121 | `)}var So=({clientMethod:e,activeProvider:r})=>t=>{let n="",i;if(Vn(t))n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};else if(Array.isArray(t)){let[o,...s]=t;n=o,i={values:Wr(s||[]),__prismaRawParameters__:!0}}else switch(r){case"sqlite":case"mysql":{n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"cockroachdb":case"postgresql":case"postgres":{n=t.text,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"sqlserver":{n=Vl(t),i={values:Wr(t.values),__prismaRawParameters__:!0};break}default:throw new Error(`The ${r} provider does not support ${e}`)}return i?.values?Ql(`prisma.${e}(${n}, ${i.values})`):Ql(`prisma.${e}(${n})`),{query:n,parameters:i}},Wl={requestArgsToMiddlewareArgs(e){return[e.strings,...e.values]},middlewareArgsToRequestArgs(e){let[r,...t]=e;return new ie(r,t)}},Jl={requestArgsToMiddlewareArgs(e){return[e]},middlewareArgsToRequestArgs(e){return e[0]}};function Ro(e){return function(t,n){let i,o=(s=e)=>{try{return s===void 0||s?.kind==="itx"?i??=Kl(t(s)):K
+
+PrismaClientInitializationError: 
+Invalid `prisma.conversationParticipant.findMany()` invocation in
+/home/z/my-project/mini-services/chat-service/index.ts:39:67
+
+  36 userSockets.get(userId)!.add(socket.id)
+  37 
+  38 // Get user's conversations and join those rooms
+→ 39 const participations = await prisma.conversationParticipant.findMany(
+Error querying the database: Error code 14: Unable to open the database file
+ clientVersion: "6.19.2",
+  errorCode: undefined,
+  retryable: undefined,
+
+      at handleRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:7568)
+      at handleAndLogRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6593)
+      at request (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6300)
+
+[Chat] Client connected: wJK__PNsQUmwPCElAAA4
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket wJK__PNsQUmwPCElAAA4
+[Chat] Error in join: 116 | 
+117 | Example:
+118 |   await prisma.$executeRawUnsafe(\`ALTER USER prisma WITH PASSWORD '\${password}'\`)
+119 | 
+120 | More Information: https://pris.ly/d/execute-raw
+121 | `)}var So=({clientMethod:e,activeProvider:r})=>t=>{let n="",i;if(Vn(t))n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};else if(Array.isArray(t)){let[o,...s]=t;n=o,i={values:Wr(s||[]),__prismaRawParameters__:!0}}else switch(r){case"sqlite":case"mysql":{n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"cockroachdb":case"postgresql":case"postgres":{n=t.text,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"sqlserver":{n=Vl(t),i={values:Wr(t.values),__prismaRawParameters__:!0};break}default:throw new Error(`The ${r} provider does not support ${e}`)}return i?.values?Ql(`prisma.${e}(${n}, ${i.values})`):Ql(`prisma.${e}(${n})`),{query:n,parameters:i}},Wl={requestArgsToMiddlewareArgs(e){return[e.strings,...e.values]},middlewareArgsToRequestArgs(e){let[r,...t]=e;return new ie(r,t)}},Jl={requestArgsToMiddlewareArgs(e){return[e]},middlewareArgsToRequestArgs(e){return e[0]}};function Ro(e){return function(t,n){let i,o=(s=e)=>{try{return s===void 0||s?.kind==="itx"?i??=Kl(t(s)):K
+
+PrismaClientInitializationError: 
+Invalid `prisma.conversationParticipant.findMany()` invocation in
+/home/z/my-project/mini-services/chat-service/index.ts:39:67
+
+  36 userSockets.get(userId)!.add(socket.id)
+  37 
+  38 // Get user's conversations and join those rooms
+→ 39 const participations = await prisma.conversationParticipant.findMany(
+Error querying the database: Error code 14: Unable to open the database file
+ clientVersion: "6.19.2",
+  errorCode: undefined,
+  retryable: undefined,
+
+      at handleRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:7568)
+      at handleAndLogRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6593)
+      at request (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6300)
+
+[Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket j8HO4efP0ykOX1AJAAA1)
+[Chat] Client connected: 5wakogy6IFWpBSUwAAA7
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket 5wakogy6IFWpBSUwAAA7
+[Chat] Error in join: 116 | 
+117 | Example:
+118 |   await prisma.$executeRawUnsafe(\`ALTER USER prisma WITH PASSWORD '\${password}'\`)
+119 | 
+120 | More Information: https://pris.ly/d/execute-raw
+121 | `)}var So=({clientMethod:e,activeProvider:r})=>t=>{let n="",i;if(Vn(t))n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};else if(Array.isArray(t)){let[o,...s]=t;n=o,i={values:Wr(s||[]),__prismaRawParameters__:!0}}else switch(r){case"sqlite":case"mysql":{n=t.sql,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"cockroachdb":case"postgresql":case"postgres":{n=t.text,i={values:Wr(t.values),__prismaRawParameters__:!0};break}case"sqlserver":{n=Vl(t),i={values:Wr(t.values),__prismaRawParameters__:!0};break}default:throw new Error(`The ${r} provider does not support ${e}`)}return i?.values?Ql(`prisma.${e}(${n}, ${i.values})`):Ql(`prisma.${e}(${n})`),{query:n,parameters:i}},Wl={requestArgsToMiddlewareArgs(e){return[e.strings,...e.values]},middlewareArgsToRequestArgs(e){let[r,...t]=e;return new ie(r,t)}},Jl={requestArgsToMiddlewareArgs(e){return[e]},middlewareArgsToRequestArgs(e){return e[0]}};function Ro(e){return function(t,n){let i,o=(s=e)=>{try{return s===void 0||s?.kind==="itx"?i??=Kl(t(s)):K
+
+PrismaClientInitializationError: 
+Invalid `prisma.conversationParticipant.findMany()` invocation in
+/home/z/my-project/mini-services/chat-service/index.ts:39:67
+
+  36 userSockets.get(userId)!.add(socket.id)
+  37 
+  38 // Get user's conversations and join those rooms
+→ 39 const participations = await prisma.conversationParticipant.findMany(
+Error querying the database: Error code 14: Unable to open the database file
+ clientVersion: "6.19.2",
+  errorCode: undefined,
+  retryable: undefined,
+
+      at handleRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:7568)
+      at handleAndLogRequestError (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6593)
+      at request (/home/z/my-project/node_modules/@prisma/client/runtime/library.js:121:6300)
+
+[Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket wJK__PNsQUmwPCElAAA4)
+error: script "dev" was terminated by signal SIGKILL (Forced quit)

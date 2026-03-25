@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion } from "framer-motion"
-import { UserPlus, Users, TrendingUp, ExternalLink, Loader2, Calendar, Clock, MapPin, ChevronRight } from "lucide-react"
+import { UserPlus, Users, TrendingUp, Calendar, Clock, MapPin, ChevronRight, Loader2 } from "lucide-react"
 import { format } from "date-fns"
 import { id } from "date-fns/locale"
 
@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/hooks/use-toast"
@@ -161,6 +160,36 @@ export function RightSidebar({
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
   }
 
+  const renderSectionHeader = (icon: React.ReactNode, title: string, onViewAll?: () => void, hasItems?: boolean) => (
+    <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center gap-2">
+        {icon}
+        <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+      </div>
+      {hasItems && onViewAll && (
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="h-7 px-2 text-xs text-primary hover:text-primary/80"
+          onClick={onViewAll}
+        >
+          View All
+          <ChevronRight className="size-3 ml-0.5" />
+        </Button>
+      )}
+    </div>
+  )
+
+  const renderLoading = () => (
+    <div className="flex justify-center py-4">
+      <Loader2 className="size-5 animate-spin text-muted-foreground" />
+    </div>
+  )
+
+  const renderEmpty = (message: string) => (
+    <p className="text-sm text-muted-foreground text-center py-4">{message}</p>
+  )
+
   return (
     <div className={cn("flex h-full flex-col", className)}>
       <ScrollArea className="flex-1">
@@ -171,169 +200,117 @@ export function RightSidebar({
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <Card className="border-0 shadow-none bg-transparent">
-              <CardHeader className="p-0 pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                    <UserPlus className="size-4 text-primary" />
-                    People You May Know
-                  </CardTitle>
-                  {suggestedUsers.length > 0 && onViewAllPeople && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2 text-xs text-primary hover:text-primary/80"
-                      onClick={onViewAllPeople}
+            {renderSectionHeader(
+              <UserPlus className="size-4 text-primary" />,
+              "People You May Know",
+              onViewAllPeople,
+              suggestedUsers.length > 0
+            )}
+            
+            {isLoadingUsers ? renderLoading() : suggestedUsers.length === 0 ? renderEmpty("No suggestions available") : (
+              <div className="space-y-2">
+                {suggestedUsers.slice(0, 5).map((user, index) => (
+                  <motion.div
+                    key={user.id}
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors group"
+                  >
+                    <Avatar className="size-10 shrink-0">
+                      <AvatarImage src={user.avatar || undefined} alt={user.name} />
+                      <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
+                        {getInitials(user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                        {user.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {user.mutualFriends > 0 
+                          ? `${user.mutualFriends} mutual friends`
+                          : `@${user.username}`
+                        }
+                      </p>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="size-8 shrink-0"
+                      disabled={sendingRequestId === user.id}
+                      onClick={() => handleSendRequest(user.id)}
                     >
-                      View All
-                      <ChevronRight className="size-3 ml-0.5" />
+                      {sendingRequestId === user.id ? (
+                        <Loader2 className="size-3 animate-spin" />
+                      ) : (
+                        <UserPlus className="size-3.5" />
+                      )}
                     </Button>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                {isLoadingUsers ? (
-                  <div className="flex justify-center py-4">
-                    <Loader2 className="size-5 animate-spin text-muted-foreground" />
-                  </div>
-                ) : suggestedUsers.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No suggestions available
-                  </p>
-                ) : (
-                  <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
-                    {suggestedUsers.slice(0, 5).map((user, index) => (
-                      <motion.div
-                        key={user.id}
-                        initial={{ x: 20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.3, delay: 0.15 + index * 0.05 }}
-                      >
-                        <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors group">
-                          <Avatar className="size-10">
-                            <AvatarImage src={user.avatar || undefined} alt={user.name} />
-                            <AvatarFallback className="bg-primary/10 text-primary text-sm font-medium">
-                              {getInitials(user.name)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
-                              {user.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {user.mutualFriends > 0 
-                                ? `${user.mutualFriends} mutual friends`
-                                : `@${user.username}`
-                              }
-                            </p>
-                          </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="size-8 shrink-0"
-                            disabled={sendingRequestId === user.id}
-                            onClick={() => handleSendRequest(user.id)}
-                          >
-                            {sendingRequestId === user.id ? (
-                              <Loader2 className="size-3 animate-spin" />
-                            ) : (
-                              <UserPlus className="size-3.5" />
-                            )}
-                          </Button>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           <Separator />
 
-          {/* Trending Groups */}
+          {/* Popular Groups */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <Card className="border-0 shadow-none bg-transparent">
-              <CardHeader className="p-0 pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                    <TrendingUp className="size-4 text-primary" />
-                    Popular Groups
-                  </CardTitle>
-                  {suggestedGroups.length > 0 && onViewAllGroups && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2 text-xs text-primary hover:text-primary/80"
-                      onClick={onViewAllGroups}
-                    >
-                      View All
-                      <ChevronRight className="size-3 ml-0.5" />
-                    </Button>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                {isLoadingGroups ? (
-                  <div className="flex justify-center py-4">
-                    <Loader2 className="size-5 animate-spin text-muted-foreground" />
-                  </div>
-                ) : suggestedGroups.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No groups available
-                  </p>
-                ) : (
-                  <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
-                    {suggestedGroups.slice(0, 5).map((group, index) => (
-                      <motion.div
-                        key={group.id}
-                        initial={{ x: 20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
+            {renderSectionHeader(
+              <TrendingUp className="size-4 text-primary" />,
+              "Popular Groups",
+              onViewAllGroups,
+              suggestedGroups.length > 0
+            )}
+            
+            {isLoadingGroups ? renderLoading() : suggestedGroups.length === 0 ? renderEmpty("No groups available") : (
+              <div className="space-y-2">
+                {suggestedGroups.slice(0, 5).map((group, index) => (
+                  <motion.div
+                    key={group.id}
+                    initial={{ x: 20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.25 + index * 0.05 }}
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors group cursor-pointer"
+                    onClick={() => onGroupClick?.(group.id)}
+                  >
+                    <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
+                      {group.avatar ? (
+                        <img src={group.avatar} alt={group.name} className="size-full object-cover" />
+                      ) : (
+                        <Users className="size-5 text-primary" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                        {group.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {group.memberCount.toLocaleString()} members
+                      </p>
+                    </div>
+                    {!group.isMember && onJoinGroup && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="size-8 shrink-0"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          onJoinGroup(group.id)
+                        }}
                       >
-                        <div 
-                          className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors group cursor-pointer"
-                          onClick={() => onGroupClick?.(group.id)}
-                        >
-                          <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 overflow-hidden">
-                            {group.avatar ? (
-                              <img src={group.avatar} alt={group.name} className="size-full object-cover" />
-                            ) : (
-                              <Users className="size-5 text-primary" />
-                            )}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
-                              {group.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {group.memberCount.toLocaleString()} members
-                            </p>
-                          </div>
-                          {!group.isMember && onJoinGroup && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="size-8 shrink-0"
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                onJoinGroup(group.id)
-                              }}
-                            >
-                              <UserPlus className="size-3.5" />
-                            </Button>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                        <UserPlus className="size-3.5" />
+                      </Button>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </motion.div>
 
           <Separator />
@@ -344,82 +321,55 @@ export function RightSidebar({
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.25 }}
           >
-            <Card className="border-0 shadow-none bg-transparent">
-              <CardHeader className="p-0 pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                    <Calendar className="size-4 text-primary" />
-                    Upcoming Events
-                  </CardTitle>
-                  {upcomingEvents.length > 0 && onViewAllEvents && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="h-6 px-2 text-xs text-primary hover:text-primary/80"
-                      onClick={onViewAllEvents}
+            {renderSectionHeader(
+              <Calendar className="size-4 text-primary" />,
+              "Upcoming Events",
+              onViewAllEvents,
+              upcomingEvents.length > 0
+            )}
+            
+            {isLoadingEvents ? renderLoading() : upcomingEvents.length === 0 ? renderEmpty("No upcoming events") : (
+              <div className="space-y-2">
+                {upcomingEvents.slice(0, 5).map((event, index) => {
+                  const eventDate = new Date(event.startDate)
+                  return (
+                    <motion.div
+                      key={event.id}
+                      initial={{ x: 20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors group cursor-pointer"
+                      onClick={() => onEventClick?.(event.id)}
                     >
-                      View All
-                      <ChevronRight className="size-3 ml-0.5" />
-                    </Button>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                {isLoadingEvents ? (
-                  <div className="flex justify-center py-4">
-                    <Loader2 className="size-5 animate-spin text-muted-foreground" />
-                  </div>
-                ) : upcomingEvents.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
-                    No upcoming events
-                  </p>
-                ) : (
-                  <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
-                    {upcomingEvents.slice(0, 5).map((event, index) => {
-                      const eventDate = new Date(event.startDate)
-                      return (
-                        <motion.div
-                          key={event.id}
-                          initial={{ x: 20, opacity: 0 }}
-                          animate={{ x: 0, opacity: 1 }}
-                          transition={{ duration: 0.3, delay: 0.3 + index * 0.05 }}
-                        >
-                          <div 
-                            className="flex items-start gap-3 p-2 rounded-lg hover:bg-accent/50 transition-colors group cursor-pointer"
-                            onClick={() => onEventClick?.(event.id)}
-                          >
-                            {/* Mini Calendar Card */}
-                            <div className="flex flex-col items-center bg-primary/10 rounded-lg p-1.5 shrink-0">
-                              <span className="text-[10px] font-medium text-muted-foreground uppercase">
-                                {format(eventDate, 'MMM', { locale: id })}
-                              </span>
-                              <span className="text-base font-bold text-primary leading-none">
-                                {format(eventDate, 'd')}
-                              </span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium truncate group-hover:text-primary transition-colors line-clamp-2">
-                                {event.title}
-                              </p>
-                              <div className="flex items-center gap-1.5 mt-1 text-xs text-muted-foreground">
-                                <Clock className="size-3" />
-                                <span>{format(eventDate, 'HH:mm')}</span>
-                              </div>
-                              {event.location && (
-                                <div className="flex items-center gap-1.5 mt-0.5 text-xs text-muted-foreground">
-                                  <MapPin className="size-3" />
-                                  <span className="truncate">{event.location}</span>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </motion.div>
-                      )
-                    })}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                      {/* Mini Calendar Card */}
+                      <div className="flex flex-col items-center justify-center bg-primary/10 rounded-lg p-1.5 shrink-0 size-10">
+                        <span className="text-[9px] font-medium text-muted-foreground uppercase leading-none">
+                          {format(eventDate, 'MMM', { locale: id })}
+                        </span>
+                        <span className="text-sm font-bold text-primary leading-tight">
+                          {format(eventDate, 'd')}
+                        </span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">
+                          {event.title}
+                        </p>
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <Clock className="size-3" />
+                          <span>{format(eventDate, 'HH:mm')}</span>
+                          {event.location && (
+                            <>
+                              <span className="mx-0.5">·</span>
+                              <span className="truncate">{event.location}</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            )}
           </motion.div>
 
           <Separator />

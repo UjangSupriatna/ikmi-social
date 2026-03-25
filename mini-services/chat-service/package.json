@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node --watch index.js",
+    "dev": "DATABASE_URL=\"file:../../db/custom.db\" node --watch index.js",
     "dev:bun": "bun --hot index.ts",
     "build": "tsc index.ts --outDir . --module nodenext --target es2022 --moduleResolution nodenext --esModuleInterop",
-    "postinstall": "prisma generate",
-    "start": "node index.js"
+    "postinstall": "DATABASE_URL=\"file:../../db/custom.db\" prisma generate",
+    "start": "DATABASE_URL=\"file:../../db/custom.db\" node index.js"
   },
   "dependencies": {
-    "@prisma/client": "^6.5.0",
+    "@prisma/client": "^6.19.2",
     "socket.io": "^4.7.2"
   },
   "devDependencies": {

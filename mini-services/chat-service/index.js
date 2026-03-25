@@ -2,10 +2,9 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { PrismaClient } from '@prisma/client'
 
-// Use the database from the main project
-const prisma = new PrismaClient({
-  datasourceUrl: 'file:../../db/dev.db'
-})
+// Use DATABASE_URL environment variable (set in package.json scripts)
+// Default to relative path if not set
+const prisma = new PrismaClient()
 
 const httpServer = createServer()
 const io = new Server(httpServer, {
