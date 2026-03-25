@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Bell, Check, CheckCheck, Loader2 } from 'lucide-react'
+import { Bell, CheckCheck, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -68,23 +68,6 @@ export function NotificationDropdown({ className, showLabel = false, iconOnly = 
     }
   }
 
-  const handleDelete = async (id: string) => {
-    try {
-      const response = await fetch(`/api/notifications/${id}`, {
-        method: 'DELETE',
-      })
-      if (response.ok) {
-        const notification = notifications.find(n => n.id === id)
-        if (notification && !notification.read) {
-          setUnreadCount(prev => Math.max(0, prev - 1))
-        }
-        setNotifications(prev => prev.filter(n => n.id !== id))
-      }
-    } catch (error) {
-      console.error('Failed to delete notification:', error)
-    }
-  }
-
   const handleMarkAllAsRead = async () => {
     setIsMarkingAllRead(true)
     try {
@@ -138,25 +121,23 @@ export function NotificationDropdown({ className, showLabel = false, iconOnly = 
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="font-semibold text-lg">Notifications</h3>
-          <div className="flex items-center gap-2">
-            {unreadCount > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 text-xs text-teal-600 hover:text-teal-700 hover:bg-teal-50"
-                onClick={handleMarkAllAsRead}
-                disabled={isMarkingAllRead}
-              >
-                {isMarkingAllRead ? (
-                  <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                ) : (
-                  <CheckCheck className="h-3 w-3 mr-1" />
-                )}
-                Mark all read
-              </Button>
-            )}
-          </div>
+          <h3 className="font-semibold text-lg">Notifikasi</h3>
+          {unreadCount > 0 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 text-xs text-primary hover:text-primary/80"
+              onClick={handleMarkAllAsRead}
+              disabled={isMarkingAllRead}
+            >
+              {isMarkingAllRead ? (
+                <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+              ) : (
+                <CheckCheck className="h-3 w-3 mr-1" />
+              )}
+              Tandai dibaca
+            </Button>
+          )}
         </div>
 
         {/* Content */}
@@ -167,9 +148,9 @@ export function NotificationDropdown({ className, showLabel = false, iconOnly = 
         ) : notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <Bell className="h-10 w-10 text-muted-foreground/30 mb-3" />
-            <p className="text-sm text-muted-foreground">No notifications yet</p>
+            <p className="text-sm text-muted-foreground">Belum ada notifikasi</p>
             <p className="text-xs text-muted-foreground/60 mt-1">
-              We'll let you know when something happens
+              Kami akan memberi tahu saat ada sesuatu
             </p>
           </div>
         ) : (
@@ -180,7 +161,6 @@ export function NotificationDropdown({ className, showLabel = false, iconOnly = 
                   key={notification.id}
                   notification={notification}
                   onMarkAsRead={handleMarkAsRead}
-                  onDelete={handleDelete}
                   onClose={() => setIsOpen(false)}
                 />
               ))}

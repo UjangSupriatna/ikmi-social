@@ -8,14 +8,10 @@ import {
   MessageCircle, 
   Users, 
   AtSign,
-  Check,
-  X,
-  Loader2,
   Bell
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Button } from '@/components/ui/button'
 import { useNavigationStore } from '@/stores/navigation-store'
 
 export type NotificationType = 
@@ -42,7 +38,6 @@ export interface NotificationItemType {
   data: NotificationItemData | null
   read: boolean
   createdAt: string | Date
-  // Optional actor info for display
   actor?: {
     id: string
     name: string
@@ -54,7 +49,6 @@ export interface NotificationItemType {
 export interface NotificationItemProps {
   notification: NotificationItemType
   onMarkAsRead?: (id: string) => Promise<void>
-  onDelete?: (id: string) => Promise<void>
   onClose?: () => void
   className?: string
 }
@@ -80,79 +74,51 @@ const notificationColors: Record<NotificationType, string> = {
 export function NotificationItem({
   notification,
   onMarkAsRead,
-  onDelete,
   onClose,
   className,
 }: NotificationItemProps) {
-  const [isLoading, setIsLoading] = useState<'read' | 'delete' | null>(null)
-  const [isRemoved, setIsRemoved] = useState(false)
   const { navigate } = useNavigationStore()
 
   const Icon = notificationIcons[notification.type] || Bell
   const iconBgColor = notificationColors[notification.type] || 'bg-gray-500'
 
-  const handleMarkAsRead = async () => {
-    if (!onMarkAsRead || notification.read) return
-    setIsLoading('read')
-    try {
-      await onMarkAsRead(notification.id)
-    } catch (error) {
-      console.error('Failed to mark as read:', error)
-    } finally {
-      setIsLoading(null)
-    }
-  }
-
-  const handleDelete = async () => {
-    if (!onDelete) return
-    setIsLoading('delete')
-    try {
-      await onDelete(notification.id)
-      setIsRemoved(true)
-    } catch (error) {
-      console.error('Failed to delete notification:', error)
-    } finally {
-      setIsLoading(null)
-    }
-  }
-
   const handleClick = async () => {
     // Mark as read
-    await handleMarkAsRead()
+    if (!notification.read && onMarkAsRead) {
+      await onMarkAsRead(notification.id)
+    }
     
     // Navigate based on notification type
     const { data } = notification
-    if (!data) return
-
-    switch (notification.type) {
-      case 'friend_request':
-        // Navigate to friends page with requests tab active
-        navigate({ type: 'friends', tab: 'requests' })
-        break
-      case 'friend_accepted':
-        if (data.fromUserId) {
-          navigate({ type: 'profile', userId: data.fromUserId })
-        } else {
-          navigate({ type: 'friends' })
-        }
-        break
-      case 'like':
-      case 'comment':
-      case 'mention':
-        if (data.postId) {
-          navigate({ type: 'post', postId: data.postId })
-        }
-        break
-      case 'group_invite':
-        if (data.groupId) {
-          navigate({ type: 'groups', groupId: data.groupId })
-        } else {
-          navigate({ type: 'groups' })
-        }
-        break
+    if (data) {
+      switch (notification.type) {
+        case 'friend_request':
+          navigate({ type: 'friends', tab: 'requests' })
+          break
+        case 'friend_accepted':
+          if (data.fromUserId) {
+            navigate({ type: 'profile', userId: data.fromUserId })
+          } else {
+            navigate({ type: 'friends' })
+          }
+          break
+        case 'like':
+        case 'comment':
+        case 'mention':
+          if (data.postId) {
+            navigate({ type: 'post', postId: data.postId })
+          }
+          break
+        case 'group_invite':
+          if (data.groupId) {
+            navigate({ type: 'groups', groupId: data.groupId })
+          } else {
+            navigate({ type: 'groups' })
+          }
+          break
+      }
     }
 
-    // Close the dropdown
     onClose?.()
   }
 
@@ -164,11 +130,11 @@ export function NotificationItem({
     const diffHours = Math.floor(diffMs / 3600000)
     const diffDays = Math.floor(diffMs / 86400000)
 
-    if (diffMins < 1) return 'Just now'
-    if (diffMins < 60) return `${diffMins}m ago`
-    if (diffHours < 24) return `${diffHours}h ago`
-    if (diffDays < 7) return `${diffDays}d ago`
-    return then.toLocaleDateString()
+    if (diffMins < 1) return 'Baru saja'
+    if (diffMins < 60) return `${diffMins}m lalu`
+    if (diffHours < 24) return `${diffHours}j lalu`
+    if (diffDays < 7) return `${diffDays}h lalu`
+    return then.toLocaleDateString('id-ID')
   }
 
   const getInitials = (name: string) => {
@@ -180,31 +146,13 @@ export function NotificationItem({
       .slice(0, 2)
   }
 
-  if (isRemoved) {
-    return (
-      <motion.div
-        initial={{ opacity: 1, height: 'auto' }}
-        animate={{ opacity: 0, height: 0 }}
-        transition={{ duration: 0.2 }}
-        className="overflow-hidden"
-      >
-        <div className="p-4 text-sm text-muted-foreground text-center">
-          Notification removed
-        </div>
-      </motion.div>
-    )
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: 20 }}
       transition={{ duration: 0.2 }}
-      className={cn(
-        'relative group',
-        className
-      )}
+      className={cn('relative', className)}
     >
       <button 
         onClick={handleClick}
@@ -250,53 +198,11 @@ export function NotificationItem({
 
         {/* Unread indicator */}
         {!notification.read && (
-          <div className="absolute right-12 top-1/2 -translate-y-1/2">
-            <div className="w-2 h-2 rounded-full bg-primary" />
+          <div className="flex-shrink-0">
+            <div className="w-2.5 h-2.5 rounded-full bg-primary" />
           </div>
         )}
       </button>
-
-      {/* Action buttons (shown on hover) */}
-      <div className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-        {!notification.read && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleMarkAsRead()
-            }}
-            disabled={isLoading !== null}
-          >
-            {isLoading === 'read' ? (
-              <Loader2 className="w-3 h-3 animate-spin" />
-            ) : (
-              <Check className="w-3 h-3 text-teal-600" />
-            )}
-          </Button>
-        )}
-        {onDelete && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              handleDelete()
-            }}
-            disabled={isLoading !== null}
-          >
-            {isLoading === 'delete' ? (
-              <Loader2 className="w-3 h-3 animate-spin" />
-            ) : (
-              <X className="w-3 h-3 text-red-500" />
-            )}
-          </Button>
-        )}
-      </div>
     </motion.div>
   )
 }
