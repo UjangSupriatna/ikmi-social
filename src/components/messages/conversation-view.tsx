@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Send, Image as ImageIcon, Loader2, Wifi, RefreshCw, MoreVertical, Trash2, User } from 'lucide-react'
+import { ArrowLeft, Send, Image as ImageIcon, Loader2, RefreshCw, MoreVertical, Trash2, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -189,10 +189,8 @@ export function ConversationView({
         <div className="flex-1 min-w-0">
           <h3 className="font-medium truncate">{conversationName}</h3>
           <div className="flex items-center gap-1.5">
-            <div className="flex items-center gap-1 text-xs text-green-600">
-              <Wifi className="size-3" />
-              <span>Live</span>
-            </div>
+            <div className="size-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-xs text-muted-foreground">Online</span>
           </div>
         </div>
 

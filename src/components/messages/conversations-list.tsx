@@ -215,7 +215,7 @@ export function ConversationsList({
                       <p
                         className={cn(
                           'text-xs sm:text-sm truncate',
-                          hasUnread ? 'text-foreground font-medium' : 'text-muted-foreground'
+                          hasUnread ? 'text-foreground font-semibold' : 'text-muted-foreground'
                         )}
                       >
                         {conv.lastMessage ? (
@@ -229,11 +229,14 @@ export function ConversationsList({
                           <span className="italic">Belum ada pesan</span>
                         )}
                       </p>
-                      {/* Unread badge */}
+                      {/* Unread indicator */}
                       {hasUnread && (
-                        <span className="ml-auto shrink-0 min-w-5 h-5 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">
-                          {conv.unreadCount > 9 ? '9+' : conv.unreadCount}
-                        </span>
+                        <div className="flex items-center gap-1.5 ml-auto shrink-0">
+                          <span className="text-[10px] sm:text-xs font-bold text-red-500">belum dibaca</span>
+                          <span className="min-w-5 h-5 px-1.5 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">
+                            {conv.unreadCount > 9 ? '9+' : conv.unreadCount}
+                          </span>
+                        </div>
                       )}
                     </div>
                   </div>
