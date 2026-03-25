@@ -670,6 +670,18 @@ export default function IKMISocial() {
     }
   }, [selectedConversation, isSocketConnected, joinConversation, markAsRead, user?.id])
 
+  // Polling fallback for messages when socket is not connected
+  React.useEffect(() => {
+    if (!selectedConversation || isSocketConnected) return
+
+    // Poll for new messages every 3 seconds when socket is not connected
+    const pollInterval = setInterval(() => {
+      fetchMessages(selectedConversation.id)
+    }, 3000)
+
+    return () => clearInterval(pollInterval)
+  }, [selectedConversation, isSocketConnected, fetchMessages])
+
   // ========== MESSAGE HANDLERS ==========
   const handleSelectConversation = async (conversation: ConversationData) => {
     setSelectedConversation(conversation)
@@ -1420,11 +1432,11 @@ export default function IKMISocial() {
 
         {/* MESSAGES VIEW */}
         {currentView === 'messages' && !viewingUserId && (
-          <motion.div key="messages" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="h-[calc(100vh-120px)] md:h-[calc(100vh-40px)] p-3 md:p-4">
-            <div className="flex h-full max-w-5xl mx-auto bg-background rounded-lg border shadow-sm overflow-hidden">
+          <motion.div key="messages" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} className="h-[calc(100vh-80px)] md:h-[calc(100vh-20px)] p-2 sm:p-3 md:p-4">
+            <div className="flex h-full max-w-5xl mx-auto bg-card rounded-lg border shadow-sm overflow-hidden">
               {/* Conversations List - Hidden on mobile when viewing a conversation */}
               <div className={cn(
-                "w-full md:w-80 border-r flex-shrink-0",
+                "w-full md:w-80 lg:w-96 border-r flex-shrink-0 bg-card",
                 selectedConversation && "hidden md:block"
               )}>
                 <ConversationsList
@@ -1439,7 +1451,7 @@ export default function IKMISocial() {
 
               {/* Conversation View - Full width on mobile, hidden when no conversation selected */}
               <div className={cn(
-                "flex-1 flex flex-col",
+                "flex-1 flex flex-col bg-card",
                 !selectedConversation && "hidden md:flex md:items-center md:justify-center"
               )}>
                 {selectedConversation ? (
@@ -1449,6 +1461,7 @@ export default function IKMISocial() {
                     currentUserId={user?.id}
                     isLoading={isLoadingMessages}
                     isSending={isSendingMessage}
+                    isConnected={isSocketConnected}
                     onBack={() => setSelectedConversation(null)}
                     onSendMessage={handleSendMessage}
                   />

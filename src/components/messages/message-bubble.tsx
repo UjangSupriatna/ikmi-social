@@ -54,15 +54,15 @@ export function MessageBubble({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.2 }}
       className={cn(
-        'flex gap-1.5 sm:gap-2 max-w-[90%] sm:max-w-[75%]',
+        'flex gap-2 max-w-[85%]',
         isOwn ? 'ml-auto flex-row-reverse' : 'mr-auto'
       )}
     >
       {/* Avatar */}
       {showAvatar && !isOwn && (
-        <Avatar className="size-6 sm:size-8 shrink-0 mt-0.5">
+        <Avatar className="size-8 shrink-0 mt-1">
           <AvatarImage src={sender.avatar || undefined} alt={sender.name} />
-          <AvatarFallback className="bg-primary/10 text-primary text-[10px] sm:text-xs font-medium">
+          <AvatarFallback className="bg-primary/10 text-primary text-xs font-medium">
             {getInitials(sender.name)}
           </AvatarFallback>
         </Avatar>
@@ -72,32 +72,32 @@ export function MessageBubble({
       <div className={cn('flex flex-col gap-0.5', isOwn ? 'items-end' : 'items-start')}>
         {/* Sender name (for group chats) */}
         {!isOwn && showAvatar && (
-          <span className="text-[10px] sm:text-xs text-muted-foreground ml-1">{sender.name}</span>
+          <span className="text-xs text-muted-foreground ml-1">{sender.name}</span>
         )}
 
         {/* Bubble */}
         <div
           className={cn(
-            'px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-2xl',
+            'px-3 py-2 rounded-2xl',
             isOwn
-              ? 'bg-primary text-primary-foreground rounded-br-sm sm:rounded-br-md'
-              : 'bg-muted rounded-bl-sm sm:rounded-bl-md'
+              ? 'bg-primary text-primary-foreground rounded-br-md'
+              : 'bg-muted rounded-bl-md'
           )}
         >
           {/* Text content */}
           {content && (
-            <p className="text-xs sm:text-sm whitespace-pre-wrap break-words">{content}</p>
+            <p className="text-sm whitespace-pre-wrap break-words">{content}</p>
           )}
 
           {/* Images */}
           {images && images.length > 0 && (
-            <div className={cn('mt-1.5 sm:mt-2 grid gap-1', images.length > 1 && 'grid-cols-2')}>
+            <div className={cn('mt-2 grid gap-1', images.length > 1 && 'grid-cols-2')}>
               {images.map((img, idx) => (
                 <img
                   key={idx}
                   src={img}
                   alt={`Image ${idx + 1}`}
-                  className="rounded-lg max-h-32 sm:max-h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                  className="rounded-lg max-h-48 object-cover cursor-pointer hover:opacity-90 transition-opacity"
                   onClick={() => window.open(img, '_blank')}
                 />
               ))}
@@ -106,16 +106,16 @@ export function MessageBubble({
         </div>
 
         {/* Time and read status */}
-        <div className={cn('flex items-center gap-0.5 px-1', isOwn && 'flex-row-reverse')}>
-          <span className="text-[9px] sm:text-[10px] text-muted-foreground">
+        <div className={cn('flex items-center gap-1 px-1', isOwn && 'flex-row-reverse')}>
+          <span className="text-[10px] text-muted-foreground">
             {formatTime(createdAt)}
           </span>
           {isOwn && (
             <span className="text-muted-foreground">
               {read ? (
-                <CheckCheck className="size-2.5 sm:size-3 text-primary" />
+                <CheckCheck className="size-3 text-primary" />
               ) : (
-                <Check className="size-2.5 sm:size-3" />
+                <Check className="size-3" />
               )}
             </span>
           )}
