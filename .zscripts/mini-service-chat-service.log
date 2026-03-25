@@ -1,0 +1,48 @@
+[chat-service] Installing dependencies...
+bun install v1.3.10 (30e609e0)
+
++ @prisma/client@7.5.0
++ socket.io@4.8.3
+
+24 packages installed [735.00ms]
+[chat-service] Running bun run dev...
+$ bun --hot index.ts
+[Chat Service] Running on port 3003
+[Chat] Client connected: BbussFD5ImdP6lpZAAAB
+[Chat] Client disconnected: BbussFD5ImdP6lpZAAAB
+[Chat] Client connected: V4WaAAQSL01yOAr9AAAD
+[Chat] Client disconnected: V4WaAAQSL01yOAr9AAAD
+[Chat] Client connected: K1abFyKxupnPYExlAAAF
+[Chat] Client disconnected: K1abFyKxupnPYExlAAAF
+[Chat] Client connected: LFLybjFgSOX-ZykdAAAH
+[Chat] Client connected: JeKerbx2lszwfraLAAAJ
+[Chat] Client disconnected: JeKerbx2lszwfraLAAAJ
+[Chat] Client connected: N7MYVsZBhFxqKcYrAAAL
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket N7MYVsZBhFxqKcYrAAAL
+[Chat] Client connected: L2AIcdqt00fckSJdAAAN
+[Chat] Client disconnected: L2AIcdqt00fckSJdAAAN
+[Chat] Client connected: 1WMUNl75SZeZvopzAAAP
+[Chat] User cmn5dxxn9000mnhq4ad8abf21 joined with socket 1WMUNl75SZeZvopzAAAP
+[Chat] Socket N7MYVsZBhFxqKcYrAAAL joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] Message sent in conversation cmn62svaf0007p6hksyocgfkk by cmn62oesq0000p6hkm1saxcds
+[Chat] Socket 1WMUNl75SZeZvopzAAAP joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] Message sent in conversation cmn62svaf0007p6hksyocgfkk by cmn5dxxn9000mnhq4ad8abf21
+[Chat] Socket N7MYVsZBhFxqKcYrAAAL joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] User cmn5dxxn9000mnhq4ad8abf21 disconnected (socket 1WMUNl75SZeZvopzAAAP)
+[Chat] Client connected: wl66t5YZj84V0OyuAAAR
+[Chat] Socket wl66t5YZj84V0OyuAAAR joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] User cmn5dxxn9000mnhq4ad8abf21 joined with socket wl66t5YZj84V0OyuAAAR
+[Chat] Socket wl66t5YZj84V0OyuAAAR joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket N7MYVsZBhFxqKcYrAAAL)
+[Chat] Client connected: fiiB9Xf4qkMVkvZPAAAT
+[Chat] Socket fiiB9Xf4qkMVkvZPAAAT joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket fiiB9Xf4qkMVkvZPAAAT
+[Chat] Socket fiiB9Xf4qkMVkvZPAAAT joined conversation cmn62svaf0007p6hksyocgfkk
+[Chat] User cmn5dxxn9000mnhq4ad8abf21 disconnected (socket wl66t5YZj84V0OyuAAAR)
+[Chat] Client connected: qbGNERf7EGzSEpnaAAAV
+[Chat] Client disconnected: qbGNERf7EGzSEpnaAAAV
+[Chat] Client connected: l6aJogl5QwN0xEs_AAAX
+[Chat] User cmn5dxxn9000mnhq4ad8abf21 joined with socket l6aJogl5QwN0xEs_AAAX
+[Chat] User cmn62oesq0000p6hkm1saxcds disconnected (socket fiiB9Xf4qkMVkvZPAAAT)
+[Chat] Client connected: t7SVGd75bXxzTHQoAAAa
+[Chat] User cmn62oesq0000p6hkm1saxcds joined with socket t7SVGd75bXxzTHQoAAAa

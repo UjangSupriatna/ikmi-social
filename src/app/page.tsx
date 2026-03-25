@@ -631,6 +631,24 @@ export default function IKMISocial() {
     fetchConversations()
   }, [selectedConversation, user?.id, fetchConversations])
 
+  // Handle message sent confirmation from socket
+  const handleSocketMessageSent = React.useCallback((message: any) => {
+    // Add the confirmed message to the UI (replace optimistic if any)
+    if (selectedConversation && message.conversationId === selectedConversation.id) {
+      setMessages((prev) => {
+        // Check if message already exists (avoid duplicates)
+        const exists = prev.some(m => m.id === message.id)
+        if (exists) return prev
+        return [...prev, {
+          ...message,
+          isOwn: true
+        }]
+      })
+    }
+    // Update conversations list
+    fetchConversations()
+  }, [selectedConversation, fetchConversations])
+
   const { 
     isConnected: isSocketConnected,
     joinConversation,
@@ -641,10 +659,7 @@ export default function IKMISocial() {
   } = useSocket({
     userId: user?.id,
     onNewMessage: handleSocketNewMessage,
-    onMessageSent: (message) => {
-      // Message was successfully sent via socket
-      console.log('Message sent via socket:', message)
-    },
+    onMessageSent: handleSocketMessageSent,
   })
 
   // Join conversation room when selected
@@ -684,34 +699,40 @@ export default function IKMISocial() {
     
     setIsSendingMessage(true)
     try {
-      const response = await fetch(`/api/messages/${selectedConversation.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content, images }),
-      })
-      
-      if (response.ok) {
-        const data = await response.json()
-        // Replace optimistic message with real one
-        setMessages((prev) => 
-          prev.map((msg) => msg.id === tempId ? data.message : msg)
-        )
+      // Use socket if connected (real-time), otherwise fall back to API
+      if (isSocketConnected) {
+        // Send via socket only - socket will save to DB and broadcast
+        sendSocketMessage({
+          conversationId: selectedConversation.id,
+          senderId: user.id,
+          content,
+          images,
+        })
+        // Remove optimistic message - socket will emit message-sent with real message
+        setMessages((prev) => prev.filter((msg) => msg.id !== tempId))
         // Update conversation list
         fetchConversations()
-        
-        // Also send via socket for real-time delivery
-        if (isSocketConnected) {
-          sendSocketMessage({
-            conversationId: selectedConversation.id,
-            senderId: user.id,
-            content,
-            images,
-          })
-        }
       } else {
-        // Remove optimistic message on error
-        setMessages((prev) => prev.filter((msg) => msg.id !== tempId))
-        toast({ title: 'Error', description: 'Failed to send message', variant: 'destructive' })
+        // Fallback to API when socket not connected
+        const response = await fetch(`/api/messages/${selectedConversation.id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content, images }),
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          // Replace optimistic message with real one
+          setMessages((prev) => 
+            prev.map((msg) => msg.id === tempId ? data.message : msg)
+          )
+          // Update conversation list
+          fetchConversations()
+        } else {
+          // Remove optimistic message on error
+          setMessages((prev) => prev.filter((msg) => msg.id !== tempId))
+          toast({ title: 'Error', description: 'Failed to send message', variant: 'destructive' })
+        }
       }
     } catch {
       // Remove optimistic message on error
