@@ -1,103 +1,129 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentUser } from '@/lib/auth'
-import { writeFile, mkdir, stat } from 'fs/promises'
-import { existsSync } from 'fs'
+import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
+import { v4 as uuidv4 } from 'uuid'
 
-// Define the absolute upload directory - this MUST be consistent across upload and serve
-const UPLOAD_BASE_DIR = '/home/z/my-project/upload'
+// ==================== PATH RESOLUTION ====================
+// Membaca UPLOAD_BASE_DIR dari env, fallback ke deteksi otomatis
+
+function getUploadDir(): string {
+  // 1. Env variable (prioritas tertinggi)
+  if (process.env.UPLOAD_BASE_DIR) return process.env.UPLOAD_BASE_DIR
+  if (process.env.UPLOAD_PATH) return process.env.UPLOAD_PATH
+
+  // 2. Deteksi standalone mode (production)
+  const cwd = process.cwd()
+  if (cwd.includes('.next/standalone')) {
+    const parts = cwd.split(path.sep)
+    const idx = parts.lastIndexOf('.next')
+    if (idx > 0) {
+      return parts.slice(0, idx).join(path.sep) + '/public/uploads'
+    }
+  }
+
+  // 3. Fallback default
+  return path.join(cwd, 'public', 'uploads')
+}
+
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+const MAX_FILE_SIZE = (parseInt(process.env.MAX_FILE_SIZE || '10', 10) || 10) * 1024 * 1024
+
+// ==================== POST /api/upload ====================
 
 export async function POST(request: NextRequest) {
   try {
     const currentUser = await getCurrentUser()
     if (!currentUser) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ success: false, error: 'Authentication required' }, { status: 401 })
     }
 
     let formData: FormData
     try {
       formData = await request.formData()
     } catch {
-      return NextResponse.json({ error: 'Failed to parse form data' }, { status: 400 })
+      return NextResponse.json({ success: false, error: 'Failed to parse form data' }, { status: 400 })
     }
 
     const file = formData.get('file') as File | null
     const type = formData.get('type') as string || 'posts'
 
     if (!file) {
-      return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+      return NextResponse.json({ success: false, error: 'No file provided' }, { status: 400 })
     }
 
-    if (!file.type.startsWith('image/')) {
-      return NextResponse.json({ error: 'File must be an image' }, { status: 400 })
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return NextResponse.json({ success: false, error: `Tipe file "${file.type}" tidak didukung. Gunakan JPEG, PNG, GIF, atau WebP.` }, { status: 400 })
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: 'File size must be less than 5MB' }, { status: 400 })
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ success: false, error: `File terlalu besar. Maksimum ${MAX_FILE_SIZE / 1024 / 1024}MB.` }, { status: 400 })
     }
 
-    const timestamp = Date.now()
-    const randomString = Math.random().toString(36).substring(2, 8)
-    const extension = file.name.split('.').pop() || 'jpg'
-    const fileName = `${type.slice(0, -1)}-${timestamp}-${randomString}.${extension}`
+    // Coba beberapa direktori, gunakan yang pertama berhasil
+    const primaryDir = getUploadDir()
+    let uploadDir = ''
+    let dirReady = false
 
-    // Use the absolute upload directory
-    const uploadDir = path.join(UPLOAD_BASE_DIR, type)
-    
-    console.log('Upload directory:', uploadDir)
-    
-    // Create directory if it doesn't exist
-    try {
-      if (!existsSync(uploadDir)) {
-        await mkdir(uploadDir, { recursive: true })
-        console.log('Created upload directory:', uploadDir)
+    for (const dir of [primaryDir, '/tmp/uploads']) {
+      try {
+        await mkdir(dir, { recursive: true })
+        // Test write permission
+        const testFile = path.join(dir, '.write-test-' + Date.now())
+        await writeFile(testFile, 'test')
+        const { unlink } = await import('fs/promises')
+        await unlink(testFile)
+        uploadDir = dir
+        dirReady = true
+        console.log('[UPLOAD] Menggunakan direktori:', uploadDir)
+        break
+      } catch (e) {
+        console.error('[UPLOAD] Gagal akses direktori:', dir, e instanceof Error ? e.message : e)
       }
-    } catch (dirError) {
-      console.error('Failed to create upload directory:', dirError)
-      return NextResponse.json({ error: 'Failed to create upload directory' }, { status: 500 })
     }
 
-    // Convert file to buffer
-    let buffer: Buffer
-    try {
-      const bytes = await file.arrayBuffer()
-      buffer = Buffer.from(bytes)
-    } catch {
-      return NextResponse.json({ error: 'Failed to process file' }, { status: 500 })
+    if (!dirReady) {
+      console.error('[UPLOAD] Semua direktori gagal. Primary:', primaryDir)
+      return NextResponse.json({
+        success: false,
+        error: 'Gagal membuat folder upload. Pastikan folder ada dan bisa ditulis.'
+      }, { status: 500 })
     }
 
-    // Write file
-    const filePath = path.join(uploadDir, fileName)
+    // Buat subfolder berdasarkan type (posts, avatars, covers, dll)
+    const typeDir = path.join(uploadDir, type)
+    await mkdir(typeDir, { recursive: true })
+
+    // Generate nama file unik
+    const extension = file.name.split('.').pop() || 'jpg'
+    const fileName = `${Date.now()}-${uuidv4().slice(0, 8)}.${extension}`
+
+    // Simpan file
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const filePath = path.join(typeDir, fileName)
+
     try {
       await writeFile(filePath, buffer)
-      console.log('File saved to:', filePath)
+      console.log('[UPLOAD] File disimpan:', filePath)
     } catch (writeError) {
-      console.error('Failed to write file:', writeError)
-      return NextResponse.json({ error: 'Failed to save file' }, { status: 500 })
+      console.error('[UPLOAD] Gagal menulis file:', writeError)
+      return NextResponse.json({ success: false, error: 'Gagal menyimpan file' }, { status: 500 })
     }
 
-    // Verify file was written
-    try {
-      const fileStats = await stat(filePath)
-      if (fileStats.size === 0) {
-        return NextResponse.json({ error: 'File is empty' }, { status: 500 })
-      }
-      console.log('File size:', fileStats.size, 'bytes')
-    } catch {
-      return NextResponse.json({ error: 'File verification failed' }, { status: 500 })
-    }
-
-    // Return API serve path
+    // Return path untuk serve
     const publicPath = `/api/serve/${type}/${fileName}`
 
     return NextResponse.json({
       success: true,
       path: publicPath,
       fileName,
-      savedTo: filePath,
     })
   } catch (error) {
-    console.error('Upload error:', error)
-    return NextResponse.json({ error: 'Failed to upload file' }, { status: 500 })
+    console.error('[UPLOAD] Error:', error)
+    return NextResponse.json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Upload gagal'
+    }, { status: 500 })
   }
 }
