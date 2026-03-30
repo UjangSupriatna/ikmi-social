@@ -1,0 +1,5 @@
+export { AIAssistantPage } from './ai-assistant-page'
+export { AboutPage } from './about-page'
+export { HelpPage } from './help-page'
+export { PrivacyPage } from './privacy-page'
+export { TermsPage } from './terms-page'

@@ -1,0 +1,588 @@
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ignore-listed frames
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+node:internal/modules/cjs/loader:1210
+  throw err;
+  ^
+
+Error: Cannot find module '/home/itsacade/ikmi-social/server.js'
+Require stack:
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1207:15)
+    at Module._load (node:internal/modules/cjs/loader:1038:27)
+    at Module.require (node:internal/modules/cjs/loader:1289:19)
+    at require (node:internal/modules/helpers:182:18)
+    at startApplication (/usr/local/lsws/fcgi-bin/lsnode.js:51:15)
+    at Object.<anonymous> (/usr/local/lsws/fcgi-bin/lsnode.js:16:1)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ '/usr/local/lsws/fcgi-bin/lsnode.js' ]
+}
+
+Node.js v20.20.0
+
+thread 'tokio-runtime-worker' panicked at /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-timer-3.0.2/src/native/delay.rs:112:21:
+timer has gone away
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tokio-runtime-worker' panicked at /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-timer-3.0.2/src/native/delay.rs:112:21:
+timer has gone away
+Registration error: Error [PrismaClientRustPanicError]: 
+Invalid `prisma.user.findMany()` invocation:
+
+
+PANIC: timer has gone away
+
+This is a non-recoverable error which probably happens when the Prisma Query Engine has a panic.
+
+https://github.com/prisma/prisma/issues/new?body=Hi+Prisma+Team%21+My+Prisma+Client+just+crashed.+This+is+the+report%3A%0A%23%23+Versions%0A%0A%7C+Name++++++++++++%7C+Version++++++++++++%7C%0A%7C-----------------%7C--------------------%7C%0A%7C+Node++++++++++++%7C+v20.20.0+++++++++++%7C+%0A%7C+OS++++++++++++++%7C+debian-openssl-1.1.x%7C%0A%7C+Prisma+Client+++%7C+6.19.2+++++++++++++%7C%0A%7C+Query+Engine++++%7C+c2990dca591cba766e3b7ef5d9e8a84796e47ab7%7C%0A%7C+Database++++++++%7C+mysql++++++++++++++%7C%0A%0A%0A%0A%23%23+Logs%0A%60%60%60%0Aprisma%3AtryLoadEnv+Environment+variables+not+found+at+null%0Aprisma%3AtryLoadEnv+Environment+variables+loaded+from+%2Fhome%2Fitsacade%2Fikmi-social%2F.env%0Aprisma%3Aclient+checkPlatformCaching%3Apostinstall+true%0Aprisma%3Aclient+checkPlatformCaching%3AciName+%0Aprisma%3AtryLoadEnv+Environment+variables+not+found+at+null%0Aprisma%3AtryLoadEnv+Environment+variables+loaded+from+%2Fhome%2Fitsacade%2Fikmi-social%2F.env%0Aprisma%3Aclient+dirname+%2Fhome%2Fitsacade%2Fikmi-social%2Fnode_modules%2F.prisma%2Fclient%0Aprisma%3Aclient+relativePath+..%2F..%2F..%2Fprisma%0Aprisma%3Aclient+cwd+%2Fhome%2Fitsacade%2Fikmi-social%2Fprisma%0Aprisma%3Aclient+clientVersion+6.19.2%0Aprisma%3Aclient%3AlibraryEngine+internalSetup%0Aprisma%3Aget-platform+Don%27t+know+any+platform-specific+paths+for+%22undefined%22+on+x64+%28x86_64%29%0Aprisma%3Aget-platform+Falling+back+to+%22ldconfig%22+and+other+generic+paths%0Aprisma%3Aclient%3AlibraryEngine+sending+request%2C+this.libraryStarted%3A+false%0Aprisma%3Aget-platform+Found+libssl.so+file+using+%22ldconfig%22+or+other+generic+paths%3A+libssl.so.1.1%0Aprisma%3Aget-platform+The+parsed+libssl+version+is%3A+1.1.x%0Aprisma%3Aget-platform+Distro+is+%22undefined%22.+Falling+back+to+Prisma+engines+built+for+%22debian%22.%0Aprisma%3Aclient%3Aengines%3AresolveEnginePath+enginePath+%2Fhome%2Fitsacade%2Fikmi-social%2Fnode_modules%2F.prisma%2Fclient%2Flibquery_engine-debian-openssl-1.1.x.so.node%0Aprisma%3Aclient%3AlibraryEngine+library+starting%0Aprisma%3Aclient%3Arequest_handler+%7B%22clientVersion%22%3A%226.19.2%22%2C%22name%22%3A%22PrismaClientRustPanicError%22%7D%0Aprisma%3Aclient%3AlibraryEngine+sending+request%2C+this.libraryStarted%3A+false%0Aprisma%3Aclient%3AlibraryEngine+library+starting%0A%60%60%60%0A%0A%23%23+Client+Snippet%0A%60%60%60ts%0A%2F%2F+PLEASE+FILL+YOUR+CODE+SNIPPET+HERE%0A%60%60%60%0A%0A%23%23+Schema%0A%60%60%60prisma%0A%2F%2F+PLEASE+ADD+YOUR+SCHEMA+HERE+IF+POSSIBLE%0A%60%60%60%0A%0A%23%23+Prisma+Engine+Query%0A%60%60%60%0A%0A%60%60%60%0A&title=PANIC%3A+timer+has+gone+away&template=bug_report.yml
+
+If you want the Prisma team to look into it, please open the link above 🙏
+To increase the chance of success, please post your schema and a snippet of
+how you used Prisma Client in the issue. 
+
+    at async ey (.next/server/chunks/[root-of-the-server]__490d5186._.js:1:42146)
+    at async C (.next/server/chunks/[root-of-the-server]__63925e27._.js:1:2350)
+    at async d (.next/server/chunks/[root-of-the-server]__63925e27._.js:1:6329) {
+  clientVersion: '6.19.2'
+}
+
+thread 'tokio-runtime-worker' panicked at /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-timer-3.0.2/src/native/delay.rs:112:21:
+timer has gone away
+
+thread 'tokio-runtime-worker' panicked at /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/futures-timer-3.0.2/src/native/delay.rs:112:21:
+timer has gone away
+Login error: Error [PrismaClientRustPanicError]: 
+Invalid `prisma.user.findFirst()` invocation:
+
+
+PANIC: timer has gone away
+
+This is a non-recoverable error which probably happens when the Prisma Query Engine has a panic.
+
+https://github.com/prisma/prisma/issues/new?body=Hi+Prisma+Team%21+My+Prisma+Client+just+crashed.+This+is+the+report%3A%0A%23%23+Versions%0A%0A%7C+Name++++++++++++%7C+Version++++++++++++%7C%0A%7C-----------------%7C--------------------%7C%0A%7C+Node++++++++++++%7C+v20.20.0+++++++++++%7C+%0A%7C+OS++++++++++++++%7C+debian-openssl-1.1.x%7C%0A%7C+Prisma+Client+++%7C+6.19.2+++++++++++++%7C%0A%7C+Query+Engine++++%7C+c2990dca591cba766e3b7ef5d9e8a84796e47ab7%7C%0A%7C+Database++++++++%7C+mysql++++++++++++++%7C%0A%0A%0A%0A%23%23+Logs%0A%60%60%60%0Aprisma%3AtryLoadEnv+Environment+variables+not+found+at+null%0Aprisma%3AtryLoadEnv+Environment+variables+loaded+from+%2Fhome%2Fitsacade%2Fikmi-social%2F.env%0Aprisma%3Aclient+checkPlatformCaching%3Apostinstall+true%0Aprisma%3Aclient+checkPlatformCaching%3AciName+%0Aprisma%3AtryLoadEnv+Environment+variables+not+found+at+null%0Aprisma%3AtryLoadEnv+Environment+variables+loaded+from+%2Fhome%2Fitsacade%2Fikmi-social%2F.env%0Aprisma%3Aclient+dirname+%2Fhome%2Fitsacade%2Fikmi-social%2Fnode_modules%2F.prisma%2Fclient%0Aprisma%3Aclient+relativePath+..%2F..%2F..%2Fprisma%0Aprisma%3Aclient+cwd+%2Fhome%2Fitsacade%2Fikmi-social%2Fprisma%0Aprisma%3Aclient+clientVersion+6.19.2%0Aprisma%3Aclient%3AlibraryEngine+internalSetup%0Aprisma%3Aget-platform+Don%27t+know+any+platform-specific+paths+for+%22undefined%22+on+x64+%28x86_64%29%0Aprisma%3Aget-platform+Falling+back+to+%22ldconfig%22+and+other+generic+paths%0Aprisma%3Aclient%3AlibraryEngine+sending+request%2C+this.libraryStarted%3A+false%0Aprisma%3Aget-platform+Found+libssl.so+file+using+%22ldconfig%22+or+other+generic+paths%3A+libssl.so.1.1%0Aprisma%3Aget-platform+The+parsed+libssl+version+is%3A+1.1.x%0Aprisma%3Aget-platform+Distro+is+%22undefined%22.+Falling+back+to+Prisma+engines+built+for+%22debian%22.%0Aprisma%3Aclient%3Aengines%3AresolveEnginePath+enginePath+%2Fhome%2Fitsacade%2Fikmi-social%2Fnode_modules%2F.prisma%2Fclient%2Flibquery_engine-debian-openssl-1.1.x.so.node%0Aprisma%3Aclient%3AlibraryEngine+library+starting%0Aprisma%3Aclient%3Arequest_handler+%7B%22clientVersion%22%3A%226.19.2%22%2C%22name%22%3A%22PrismaClientRustPanicError%22%7D%0Aprisma%3Aclient%3AlibraryEngine+sending+request%2C+this.libraryStarted%3A+false%0Aprisma%3Aclient%3AlibraryEngine+library+starting%0Aprisma%3Aclient%3Arequest_handler+%7B%22clientVersion%22%3A%226.19.2%22%2C%22name%22%3A%22PrismaClientRustPanicError%22%7D%0Aprisma%3Aclient%3AlibraryEngine+sending+request%2C+this.libraryStarted%3A+false%0Aprisma%3Aclient%3AlibraryEngine+library+starting%0Aprisma%3Aclient%3Arequest_handler+%7B%22clientVersion%22%3A%226.19.2%22%2C%22name%22%3A%22PrismaClientRustPanicError%22%7D%0Aprisma%3Aclient%3AlibraryEngine+sending+request%2C+this.libraryStarted%3A+false%0Aprisma%3Aclient%3AlibraryEngine+library+starting%0A%60%60%60%0A%0A%23%23+Client+Snippet%0A%60%60%60ts%0A%2F%2F+PLEASE+FILL+YOUR+CODE+SNIPPET+HERE%0A%60%60%60%0A%0A%23%23+Schema%0A%60%60%60prisma%0A%2F%2F+PLEASE+ADD+YOUR+SCHEMA+HERE+IF+POSSIBLE%0A%60%60%60%0A%0A%23%23+Prisma+Engine+Query%0A%60%60%60%0A%0A%60%60%60%0A&title=PANIC%3A+timer+has+gone+away&template=bug_report.yml
+
+If you want the Prisma team to look into it, please open the link above 🙏
+To increase the chance of success, please post your schema and a snippet of
+how you used Prisma Client in the issue. 
+
+    at async eh (.next/server/chunks/[root-of-the-server]__490d5186._.js:1:41649)
+    at async y (.next/server/chunks/[root-of-the-server]__97b9f6da._.js:1:2062)
+    at async u (.next/server/chunks/[root-of-the-server]__97b9f6da._.js:1:5852) {
+  clientVersion: '6.19.2'
+}
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: retry: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+/home/itsacade/nodevenv/ikmi-social/20/bin/node: fork: Resource temporarily unavailable
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
+Failed to create upload directory: Error: EACCES: permission denied, mkdir '/home/z'
+    at async C (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:2534)
+    at async d (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:6516)
+    at async l (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:7557)
+    at async Module.P (.next/server/chunks/[root-of-the-server]__5b990549._.js:1:8635) {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'mkdir',
+  path: '/home/z'
+}
